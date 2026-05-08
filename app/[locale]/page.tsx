@@ -94,14 +94,41 @@ export default async function HomePage({ params }: PageProps) {
             result: "Carlos saved 31% on his debt",
           },
         ];
+  const reviewPlatforms = [
+    {
+      name: "Google",
+      logo: "/media/google%20logo.svg",
+      logoWidth: 92,
+      logoHeight: 31,
+      score: "4.6",
+      count: "13,800+ Reviews",
+    },
+    {
+      name: "ConsumerAffairs",
+      logo: "/media/consumeraffairs%20logo.svg",
+      logoWidth: 177,
+      logoHeight: 19,
+      score: "4.9",
+      count: "58,550+ Reviews",
+    },
+    {
+      name: "Trustpilot",
+      logo: "/media/trustpilot%20logo.svg",
+      logoWidth: 138,
+      logoHeight: 35,
+      score: "4.7",
+      count: "43,430+ Reviews",
+    },
+  ];
+
   return (
     <div className="flex min-h-dvh flex-col bg-white text-slate-950">
       <SiteHeader locale={locale} />
       <main className="flex-1">
-        <section className="bg-[#02163a]">
-          <div className="scrollbar-hidden flex snap-x snap-mandatory overflow-x-auto">
+        <section className="overflow-hidden bg-[#02163a]">
+          <div className="story-carousel-track scrollbar-hidden flex snap-x snap-mandatory overflow-x-auto lg:transform-none">
             {stories.map((story, storyIndex) => (
-              <div key={story.name} className="grid w-full shrink-0 snap-center lg:grid-cols-2">
+              <div key={story.name} className="story-carousel-slide grid w-full shrink-0 snap-center lg:grid-cols-2">
                 <div className="relative min-h-[205px] overflow-hidden sm:min-h-[380px] lg:min-h-[760px]">
                   <Image
                     src={story.image}
@@ -157,6 +184,59 @@ export default async function HomePage({ params }: PageProps) {
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+
+        <section className="bg-white px-5 py-12 md:py-20">
+          <div className="mx-auto max-w-5xl">
+            <h2 className="max-w-4xl text-3xl font-bold uppercase leading-tight tracking-normal text-[#02163a] md:text-5xl">
+              {t.home.servicesTitle}
+            </h2>
+            <div className="mt-7 grid gap-5 text-lg leading-8 text-slate-700">
+              {t.home.servicesParagraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+            </div>
+            <p className="mt-6 text-sm italic leading-6 text-slate-500">{t.home.servicesNote}</p>
+          </div>
+        </section>
+
+        <section className="bg-[#f2f5fb] px-5 py-12 md:py-20">
+          <div className="mx-auto max-w-5xl text-center">
+            <h2 className="text-3xl font-bold tracking-normal text-[#02163a] md:text-5xl">
+              {t.home.platformReviewsTitle}
+            </h2>
+            <div className="mt-9 grid gap-5 sm:grid-cols-3">
+              {reviewPlatforms.map((platform) => (
+                <article
+                  key={platform.name}
+                  className="rounded-3xl bg-white px-6 py-8 text-[#02163a] shadow-sm"
+                >
+                  <div className="flex min-h-9 items-center justify-center">
+                    <Image
+                      src={platform.logo}
+                      alt={platform.name}
+                      width={platform.logoWidth}
+                      height={platform.logoHeight}
+                      className="h-auto max-h-9 w-auto"
+                    />
+                  </div>
+                  <div className="mt-5 flex justify-center gap-1.5" aria-label={`${platform.score} star rating`}>
+                    <Image
+                      src="/media/review-stars.svg"
+                      alt=""
+                      width={594}
+                      height={146}
+                      className="h-auto w-28"
+                    />
+                  </div>
+                  <p className="mt-5 text-lg text-[#02163a]">
+                    <span className="font-bold">{platform.score}</span>
+                    <span> - {platform.count}</span>
+                  </p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 

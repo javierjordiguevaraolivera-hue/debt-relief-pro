@@ -31,6 +31,15 @@ export const translations = {
         "See how quickly you can be debt free",
         "No fees until your accounts are settled",
       ],
+      servicesTitle: "How our debt relief services may help you",
+      servicesParagraphs: [
+        "If rising balances and high monthly payments are making it difficult to move forward, you're not alone. Our debt relief programs are built to help you reduce unsecured debt and take meaningful steps toward financial freedom.",
+        "We work directly with creditors to negotiate potential settlements that may lower the total amount you owe.",
+        "Rather than spending years making minimum payments, you could follow a structured plan designed to help you resolve credit card debt faster and more efficiently.",
+      ],
+      servicesNote:
+        "*Program duration and results will vary depending on individual circumstances.",
+      platformReviewsTitle: "Top-notch reviews from our top-notch clients",
       reviewTitle: "Trusted by people looking for a clearer way out",
       reviewStats: [
         { value: "4.8/5", label: "Average client rating" },
@@ -141,6 +150,15 @@ export const translations = {
         "Mira que tan rapido podrias salir de deudas",
         "Sin cargos hasta que tus cuentas sean negociadas",
       ],
+      servicesTitle: "Como Debt Relief Pro puede ayudarte",
+      servicesParagraphs: [
+        "Si las deudas con altos intereses y los pagos minimos te tienen atrapado, no eres el unico. Nuestros programas de alivio de deuda estan disenados para ayudarte a reducir tus deudas no garantizadas y avanzar hacia una vida financiera mas estable.",
+        "Trabajamos directamente con los acreedores para negociar acuerdos que podrian permitirte pagar menos de lo que actualmente debes.",
+        "En lugar de pasar anos haciendo solo pagos minimos, puedes seguir un plan estructurado para salir de las deudas de tarjetas de credito de una forma mas rapida y organizada.",
+      ],
+      servicesNote:
+        "*La duracion del programa y los resultados pueden variar segun cada caso.",
+      platformReviewsTitle: "Resenas destacadas de nuestros clientes",
       reviewTitle: "Confianza para personas que buscan una salida mas clara",
       reviewStats: [
         { value: "4.8/5", label: "Calificacion promedio" },

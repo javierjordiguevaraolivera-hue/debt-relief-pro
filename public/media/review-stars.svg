@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="594" height="146" viewBox="0 0 594 146" role="img" aria-label="Five star rating">
+  <defs>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="0" dy="7" stdDeviation="7.5" flood-color="#0077E3" flood-opacity=".33"/>
+    </filter>
+    <path id="star" d="M53.896 27.232a2.811 2.811 0 0 0 2.673 1.94h26.616c2.722 0 3.853 3.48 1.652 5.078L63.304 49.882a2.807 2.807 0 0 0-1.021 3.139l8.225 25.291c.84 2.587-2.122 4.738-4.325 3.14L44.651 65.82a2.813 2.813 0 0 0-3.302 0L19.816 81.45c-2.202 1.599-5.165-.552-4.324-3.139l8.224-25.291a2.805 2.805 0 0 0-1.02-3.14L1.162 34.252c-2.201-1.6-1.07-5.08 1.652-5.08h26.616a2.809 2.809 0 0 0 2.672-1.94l8.225-25.29c.84-2.588 4.503-2.588 5.344 0l8.224 25.29z"/>
+  </defs>
+  <g fill="#0077E3" filter="url(#shadow)">
+    <use href="#star" x="32" y="32"/>
+    <use href="#star" x="143" y="32"/>
+    <use href="#star" x="254" y="32"/>
+    <use href="#star" x="365" y="32"/>
+    <use href="#star" x="476" y="32"/>
+  </g>
+  <rect x="546" y="8" width="29" height="106" rx="14.5" fill="#fff"/>
+</svg>

@@ -26,6 +26,35 @@ body {
   display: none;
 }
 
+@media (max-width: 1023px) {
+  .story-carousel-track {
+    animation: story-slide 12s ease-in-out infinite;
+    overflow: visible;
+    width: 200%;
+  }
+
+  .story-carousel-slide {
+    width: 50%;
+  }
+}
+
+@keyframes story-slide {
+  0%,
+  34% {
+    transform: translateX(0);
+  }
+
+  48%,
+  82% {
+    transform: translateX(-50%);
+  }
+
+  96%,
+  100% {
+    transform: translateX(0);
+  }
+}
+
 .article-content {
   color: #334155;
   font-size: 1.0625rem;
