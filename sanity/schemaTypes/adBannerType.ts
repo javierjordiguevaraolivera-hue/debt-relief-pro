@@ -43,23 +43,9 @@ export const adBannerType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: 'placement',
-      title: 'Placement',
-      type: 'string',
-      initialValue: 'inline',
-      options: {
-        layout: 'radio',
-        list: [
-          {title: 'Top banner', value: 'top'},
-          {title: 'Inline between paragraphs', value: 'inline'},
-          {title: 'Desktop sidebar', value: 'sidebar'},
-        ],
-      },
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
       name: 'format',
       title: 'Ad size',
+      description: 'Placement is automatic: horizontal banners go top, rectangles go inside the article, and 300 x 600 goes in the desktop sidebar.',
       type: 'string',
       initialValue: 'mediumRectangle',
       options: {
@@ -121,26 +107,18 @@ export const adBannerType = defineType({
           return value.startsWith('/') ? true : 'Use an internal path that starts with /.'
         }),
     }),
-    defineField({
-      name: 'priority',
-      title: 'Priority',
-      description: 'Higher numbers are picked first when several banners fit the same slot.',
-      type: 'number',
-      initialValue: 0,
-    }),
   ],
   preview: {
     select: {
       title: 'title',
       category: 'category',
-      placement: 'placement',
       format: 'format',
       media: 'image',
     },
     prepare(selection) {
       return {
         title: selection.title,
-        subtitle: [selection.category, selection.placement, selection.format].filter(Boolean).join(' / '),
+        subtitle: [selection.category, selection.format].filter(Boolean).join(' / '),
         media: selection.media,
       }
     },

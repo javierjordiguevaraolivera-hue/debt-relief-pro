@@ -20,9 +20,7 @@ export type AdBanner = {
   _id: string;
   title: string;
   category: AdBannerCategory;
-  placement: AdBannerPlacement;
   format: AdBannerFormat;
-  priority?: number;
   imageUrl?: string;
   imageAlt: string;
   internalPath?: string;
@@ -42,9 +40,7 @@ const bannerFields = groq`
   _id,
   title,
   category,
-  placement,
   format,
-  priority,
   internalPath,
   "image": image,
   "imageAlt": image.alt
@@ -59,7 +55,7 @@ export async function getAdBanners(
       active == true &&
       $pageType in showOn[] &&
       defined(image)
-    ] | order(coalesce(priority, 0) desc, _updatedAt desc) {
+    ] | order(_createdAt asc) {
       ${bannerFields}
     }`,
     { pageType },
@@ -74,17 +70,15 @@ export function selectAdBanner(
   placement: AdBannerPlacement,
   seed: string,
 ): AdBanner | null {
-  const candidates = banners.filter((banner) => banner.placement === placement);
+  const candidates = banners.filter((banner) => isFormatEligibleForPlacement(banner.format, placement));
 
   if (!candidates.length) {
     return null;
   }
 
-  const highestPriority = Math.max(...candidates.map((banner) => banner.priority || 0));
-  const preferred = candidates.filter((banner) => (banner.priority || 0) === highestPriority);
-  const index = hashSeed(`${seed}-${placement}`) % preferred.length;
+  const index = hashSeed(`${seed}-${placement}`) % candidates.length;
 
-  return preferred[index] || null;
+  return candidates[index] || null;
 }
 
 export function getAdBannerHref(banner: AdBanner, locale: Locale): string {
@@ -123,15 +117,28 @@ function formatBanner(banner: AdBanner & { image?: unknown }): AdBanner {
     _id: banner._id,
     title: banner.title,
     category: banner.category,
-    placement: banner.placement,
     format: banner.format,
-    priority: banner.priority,
     imageUrl: banner.image
       ? urlFor(banner.image).width(size.width).height(size.height).fit("max").url()
       : undefined,
     imageAlt: banner.imageAlt,
     internalPath: banner.internalPath,
   };
+}
+
+function isFormatEligibleForPlacement(
+  format: AdBannerFormat,
+  placement: AdBannerPlacement,
+): boolean {
+  if (placement === "top") {
+    return ["leaderboard", "billboard", "mobileLeaderboard", "largeMobileBanner"].includes(format);
+  }
+
+  if (placement === "sidebar") {
+    return format === "halfPage";
+  }
+
+  return ["mediumRectangle", "largeRectangle", "largeMobileBanner"].includes(format);
 }
 
 function hashSeed(seed: string): number {
