@@ -43,22 +43,25 @@ export default async function ApplyPage({ params }: PageProps) {
   const t = getTranslations(locale);
 
   return (
-    <div className="flex min-h-dvh flex-col bg-stone-50 text-slate-950">
+    <div className="flex min-h-dvh flex-col bg-[#f4f8fb] text-slate-950">
       <SiteHeader locale={locale} />
-      <main className="mx-auto grid w-full max-w-7xl flex-1 gap-10 px-5 py-14 md:grid-cols-[0.9fr_1.1fr]">
-        <section className="flex flex-col justify-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
+      <main className="mx-auto grid w-full max-w-7xl flex-1 gap-8 px-4 py-8 md:grid-cols-[0.9fr_1.1fr] md:px-5 md:py-14">
+        <section className="flex flex-col justify-center rounded-lg bg-white p-6 shadow-sm md:bg-transparent md:p-0 md:shadow-none">
+          <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700 md:text-sm">
             {t.nav.apply}
           </p>
-          <h1 className="mt-4 text-4xl font-semibold leading-tight tracking-normal md:text-5xl">
+          <h1 className="mt-4 text-4xl font-bold leading-tight tracking-normal text-[#123b5d] md:text-5xl">
             {t.apply.title}
           </h1>
-          <p className="mt-5 text-lg leading-8 text-slate-700">{t.apply.description}</p>
-          <div className="mt-8 rounded-lg bg-slate-950 p-5 text-white">
-            <p className="text-sm text-slate-300">{getSupportHours()}</p>
-            <a href={getPhoneHref()} className="mt-2 block text-2xl font-semibold">
+          <p className="mt-5 text-base leading-7 text-slate-700 md:text-lg md:leading-8">
+            {t.apply.description}
+          </p>
+          <div className="mt-8 rounded-lg bg-[#113b5f] p-5 text-white">
+            <p className="text-sm font-bold uppercase text-emerald-200">{getSupportHours()}</p>
+            <a href={getPhoneHref()} className="mt-2 block text-2xl font-bold">
               {getPhoneDisplay()}
             </a>
+            <p className="mt-4 text-sm leading-6 text-slate-100">{t.home.trustNote}</p>
           </div>
         </section>
         <ApplyForm locale={locale} />
