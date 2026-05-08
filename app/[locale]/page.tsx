@@ -120,6 +120,45 @@ export default async function HomePage({ params }: PageProps) {
       count: "18,900+ Reviews",
     },
   ];
+  const stepIcons = [
+    <svg key="apply" viewBox="0 0 96 96" aria-hidden="true" className="h-16 w-16">
+      <path
+        d="M79 18 16 45.4c-4.1 1.8-3.9 7.7.4 9.1l15.8 5.1 6.2 18.5c1.3 3.9 6.5 4.8 9.1 1.5l9.1-11.7 16.1 11.5c3.6 2.6 8.7.4 9.3-4l7.8-49.5c.8-5.2-6-10-10.8-7.9Z"
+        fill="#e8f3ff"
+        stroke="#0077e3"
+        strokeLinejoin="round"
+        strokeWidth="4"
+      />
+      <path
+        d="m33 59 38-27-32.6 36.2"
+        fill="none"
+        stroke="#02163a"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="4"
+      />
+    </svg>,
+    <svg key="plan" viewBox="0 0 96 96" aria-hidden="true" className="h-16 w-16">
+      <rect x="16" y="24" width="64" height="44" rx="10" fill="#fff" stroke="#02163a" strokeWidth="4" />
+      <path d="M16 38h64" stroke="#02163a" strokeWidth="4" />
+      <path d="M28 53h20M28 61h12" stroke="#02163a" strokeLinecap="round" strokeWidth="4" />
+      <circle cx="67" cy="59" r="14" fill="#e8f3ff" stroke="#0077e3" strokeWidth="4" />
+      <path d="m60 59 5 5 10-13" fill="none" stroke="#0077e3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" />
+      <path d="M28 18h40" stroke="#0077e3" strokeLinecap="round" strokeWidth="4" />
+    </svg>,
+    <svg key="free" viewBox="0 0 96 96" aria-hidden="true" className="h-16 w-16">
+      <path
+        d="M48 78S18 59.8 18 36.8C18 25.7 25.6 18 35.7 18c5.9 0 9.9 2.9 12.3 6.4C50.4 20.9 54.4 18 60.3 18 70.4 18 78 25.7 78 36.8 78 59.8 48 78 48 78Z"
+        fill="#e8f3ff"
+        stroke="#02163a"
+        strokeLinejoin="round"
+        strokeWidth="4"
+      />
+      <circle cx="66" cy="62" r="14" fill="#fff" stroke="#0077e3" strokeWidth="4" />
+      <path d="m59 62 5 5 10-13" fill="none" stroke="#0077e3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="4" />
+      <path d="M36 39c5 5 19 5 24 0" fill="none" stroke="#0077e3" strokeLinecap="round" strokeWidth="4" />
+    </svg>,
+  ];
 
   return (
     <div className="flex min-h-dvh flex-col bg-white text-slate-950">
@@ -244,6 +283,32 @@ export default async function HomePage({ params }: PageProps) {
           </div>
         </section>
 
+        <section id="process" className="bg-white px-5 py-14 md:py-20">
+          <div className="mx-auto max-w-7xl text-center">
+            <h2 className="text-3xl font-bold tracking-normal text-[#02163a] md:text-5xl">
+              {t.home.howTitle}
+            </h2>
+            <p className="mx-auto mt-5 max-w-3xl text-xl font-bold leading-8 text-[#02163a]">
+              {t.home.howSubtitle}
+            </p>
+            <div className="mt-10 grid gap-12 md:grid-cols-3 md:gap-9">
+              {t.home.howSteps.map((step, index) => (
+                <article key={step.title} className="mx-auto max-w-sm">
+                  <div className="flex justify-center">{stepIcons[index]}</div>
+                  <h3 className="mt-5 text-2xl font-bold leading-tight text-[#02163a]">{step.title}</h3>
+                  <p className="mt-4 text-lg leading-8 text-[#02163a]">{step.text}</p>
+                </article>
+              ))}
+            </div>
+            <Link
+              href={`/${locale}/apply`}
+              className="mt-10 inline-flex rounded-full bg-emerald-600 px-8 py-4 text-base font-bold uppercase text-white shadow-sm hover:bg-emerald-700"
+            >
+              {t.home.howCta}
+            </Link>
+          </div>
+        </section>
+
         <section className="bg-white px-5 py-10 md:py-14">
           <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-[1fr_360px] md:items-start">
             <div>
@@ -278,39 +343,6 @@ export default async function HomePage({ params }: PageProps) {
               </button>
               <p className="mt-4 text-sm leading-6 text-slate-600">{t.home.trustNote}</p>
             </form>
-          </div>
-        </section>
-
-        <section id="benefits" className="mx-auto max-w-7xl px-4 py-14 md:px-5 md:py-20">
-          <h2 className="max-w-3xl text-3xl font-bold tracking-normal text-[#02163a] md:text-4xl">
-            {t.home.benefitsTitle}
-          </h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {t.home.benefits.map((benefit) => (
-              <article key={benefit.title} className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-emerald-100 text-lg font-bold text-emerald-700">
-                  +
-                </div>
-                <h3 className="mt-5 text-xl font-bold text-slate-950">{benefit.title}</h3>
-                <p className="mt-3 leading-7 text-slate-600">{benefit.text}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="process" className="bg-[#02163a] py-14 text-white md:py-20">
-          <div className="mx-auto max-w-7xl px-4 md:px-5">
-            <h2 className="text-3xl font-bold tracking-normal md:text-4xl">{t.home.processTitle}</h2>
-            <div className="mt-8 grid gap-4 md:grid-cols-3">
-              {t.home.steps.map((step, index) => (
-                <div key={step} className="rounded-lg border border-white/15 bg-white/5 p-6">
-                  <p className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-400 text-sm font-bold text-[#02163a]">
-                    {index + 1}
-                  </p>
-                  <p className="mt-5 leading-7 text-slate-100">{step}</p>
-                </div>
-              ))}
-            </div>
           </div>
         </section>
 

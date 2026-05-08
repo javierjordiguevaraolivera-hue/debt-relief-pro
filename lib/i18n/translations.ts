@@ -40,6 +40,23 @@ export const translations = {
       servicesNote:
         "*Program duration and results will vary depending on individual circumstances.",
       platformReviewsTitle: "Top-notch reviews from our top-notch clients",
+      howTitle: "How it works",
+      howSubtitle: "You stay in control, our debt experts do the work.",
+      howSteps: [
+        {
+          title: "Apply to see if you qualify",
+          text: "Tell us about your debt and goals so you can review available relief options.",
+        },
+        {
+          title: "We create an affordable payment plan",
+          text: "Review a structured plan designed around your situation and monthly budget.",
+        },
+        {
+          title: "Breathe easy again",
+          text: "Break free from debt with a clearer path toward financial stability.",
+        },
+      ],
+      howCta: "Apply for relief",
       reviewTitle: "Trusted by people looking for a clearer way out",
       reviewStats: [
         { value: "4.8/5", label: "Average client rating" },
@@ -159,6 +176,23 @@ export const translations = {
       servicesNote:
         "*La duración del programa y los resultados pueden variar según cada caso.",
       platformReviewsTitle: "Reviews destacadas de nuestros clientes",
+      howTitle: "Cómo funciona",
+      howSubtitle: "Usted tiene el control, nuestros expertos en deudas hacen el trabajo.",
+      howSteps: [
+        {
+          title: "Aplica para ver si calificas",
+          text: "Cuéntanos sobre tus deudas y metas para revisar opciones de alivio disponibles.",
+        },
+        {
+          title: "Creamos un plan de pagos asequible",
+          text: "Revisa un plan estructurado diseñado según tu situación y presupuesto mensual.",
+        },
+        {
+          title: "Respira tranquilo otra vez",
+          text: "Libérate de las deudas con un camino más claro hacia la estabilidad financiera.",
+        },
+      ],
+      howCta: "Aplicar al Beneficio",
       reviewTitle: "Confianza para personas que buscan una salida más clara",
       reviewStats: [
         { value: "4.8/5", label: "Calificación promedio" },
