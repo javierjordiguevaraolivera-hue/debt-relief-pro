@@ -7,7 +7,7 @@ export const translations = {
       process: "How it works",
       testimonials: "Testimonials",
       blog: "Blog",
-      apply: "Check eligibility",
+      apply: "Apply for Relief",
     },
     home: {
       eyebrow: "Debt relief guidance for U.S. consumers",
@@ -88,13 +88,13 @@ export const translations = {
     nav: {
       benefits: "Beneficios",
       process: "Cómo funciona",
-      testimonials: "Testimonios",
+      testimonials: "Historias de clientes",
       blog: "Blog",
-      apply: "Ver elegibilidad",
+      apply: "Reducir mi Deuda",
     },
     home: {
       eyebrow: "Orientación de alivio de deuda para consumidores en EE. UU.",
-      heroTitle: "Encuentra un camino más claro para salir de deudas no garantizadas.",
+      heroTitle: "Encuentra un camino más claro para salir de deudas sin garantía.",
       heroText:
         "Compara tus opciones, entiende qué puede encajar con tu situación y empieza una pre-calificación breve con un socio afiliado confiable.",
       primaryCta: "Iniciar pre-calificación",

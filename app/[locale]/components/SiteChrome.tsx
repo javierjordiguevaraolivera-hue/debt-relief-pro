@@ -27,6 +27,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         <nav className="hidden items-center gap-6 text-sm font-medium text-slate-700 md:flex">
           <a href={`/${locale}#benefits`}>{t.nav.benefits}</a>
           <a href={`/${locale}#process`}>{t.nav.process}</a>
+          <a href={`/${locale}#testimonials`}>{t.nav.testimonials}</a>
           <Link href={`/${locale}/blog`}>{t.nav.blog}</Link>
         </nav>
         <div className="flex items-center gap-2">
