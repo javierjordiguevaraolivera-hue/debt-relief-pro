@@ -32,12 +32,12 @@ const postFields = groq`
 `;
 
 export async function getPosts(locale: Locale, limit = 12): Promise<BlogPostCard[]> {
-  const posts = await client.fetch(
+  const posts = await safeFetch<Array<BlogPostCard & { image?: unknown }>>(
     groq`*[_type == "post" && defined(slug_en.current)] | order(publishedAt desc)[0...$limit] {
-      ${postFields}
-    }`,
+        ${postFields}
+      }`,
     { locale, limit },
-    { next: { revalidate: 60 } },
+    [],
   );
 
   return posts.map(formatPostCard);
@@ -47,7 +47,7 @@ export async function getPostBySlug(
   locale: Locale,
   slug: string,
 ): Promise<BlogPost | null> {
-  const post = await client.fetch(
+  const post = await safeFetch<(BlogPost & { image?: unknown }) | null>(
     groq`*[
       _type == "post" &&
       (slug_en.current == $slug || slug_es.current == $slug)
@@ -58,10 +58,23 @@ export async function getPostBySlug(
       "body": select($locale == "es" => coalesce(body_es, body_en), body_en)
     }`,
     { locale, slug },
-    { next: { revalidate: 60 } },
+    null,
   );
 
   return post ? formatPost(post) : null;
+}
+
+async function safeFetch<T>(
+  query: string,
+  params: Record<string, unknown>,
+  fallback: T,
+): Promise<T> {
+  try {
+    return await client.fetch<T>(query, params, { next: { revalidate: 60 } });
+  } catch (error) {
+    console.error("Sanity fetch failed", error);
+    return fallback;
+  }
 }
 
 function formatPostCard(post: BlogPostCard & { image?: unknown }): BlogPostCard {

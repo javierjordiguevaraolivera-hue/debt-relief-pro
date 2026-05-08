@@ -14,7 +14,11 @@ export function SiteHeader({ locale }: { locale: Locale }) {
     <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4">
         <Link href={`/${locale}`} className="font-semibold tracking-tight text-slate-950">
-          {brand}
+          <img
+            src="/media/debt%20relief%20pro%20logo.svg"
+            alt={brand}
+            className="h-10 w-auto"
+          />
         </Link>
         <nav className="hidden items-center gap-6 text-sm font-medium text-slate-700 md:flex">
           <a href={`/${locale}#benefits`}>{t.nav.benefits}</a>
@@ -54,7 +58,11 @@ export function SiteFooter({ locale }: { locale: Locale }) {
     <footer className="border-t border-stone-200 bg-stone-50">
       <div className="mx-auto grid max-w-7xl gap-6 px-5 py-10 text-sm text-slate-600 md:grid-cols-[1fr_auto]">
         <div>
-          <p className="font-semibold text-slate-950">{brand}</p>
+          <img
+            src="/media/debt%20relief%20pro%20logo.svg"
+            alt={brand}
+            className="h-9 w-auto"
+          />
           <p className="mt-3 max-w-3xl leading-6">{t.footer.disclosure}</p>
         </div>
         <div className="md:text-right">
