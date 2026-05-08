@@ -94,33 +94,30 @@ export default async function HomePage({ params }: PageProps) {
             result: "Carlos saved 31% on his debt",
           },
         ];
-  const heroStory = stories[0];
-
   return (
     <div className="flex min-h-dvh flex-col bg-white text-slate-950">
       <SiteHeader locale={locale} />
       <main className="flex-1">
         <section className="bg-[#02163a]">
-          <div className="grid lg:grid-cols-2">
-            <div className="relative min-h-[205px] overflow-hidden sm:min-h-[380px] lg:min-h-[760px]">
-              <Image
-                src={heroStory.image}
-                alt={heroStory.name}
-                fill
-                priority
-                sizes="(min-width: 1024px) 50vw, 100vw"
-                className="object-cover object-center"
-              />
-            </div>
-            <div className="scrollbar-hidden flex snap-x snap-mandatory overflow-x-auto text-white lg:overflow-visible">
-              {stories.map((story, storyIndex) => (
+          <div className="scrollbar-hidden flex snap-x snap-mandatory overflow-x-auto">
+            {stories.map((story, storyIndex) => (
+              <div key={story.name} className="grid w-full shrink-0 snap-center lg:grid-cols-2">
+                <div className="relative min-h-[205px] overflow-hidden sm:min-h-[380px] lg:min-h-[760px]">
+                  <Image
+                    src={story.image}
+                    alt={story.name}
+                    fill
+                    priority={storyIndex === 0}
+                    sizes="(min-width: 1024px) 50vw, 100vw"
+                    className="object-cover object-center"
+                  />
+                </div>
                 <div
-                  key={story.name}
                   className="flex w-full shrink-0 snap-center items-start justify-center px-5 py-7 text-white sm:px-8 sm:py-12 lg:items-center lg:px-14 lg:py-16"
                 >
                   <div className="w-full max-w-3xl text-center">
                     <p className="text-lg font-semibold">{story.name}</p>
-                    <blockquote className="mt-5 text-xl font-bold italic leading-snug sm:text-2xl md:text-4xl md:leading-tight">
+                    <blockquote className="mt-5 text-xl font-normal italic leading-snug sm:text-2xl md:text-4xl md:leading-tight">
                       &ldquo;{story.quote}&rdquo;
                     </blockquote>
                     <Link
@@ -158,8 +155,8 @@ export default async function HomePage({ params }: PageProps) {
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </section>
 
