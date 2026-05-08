@@ -31,7 +31,7 @@ export const customerStoryType = defineType({
       name: 'state',
       title: 'State',
       type: 'string',
-      description: 'Two-letter U.S. state abbreviation, e.g. CA, TX, FL.',
+      description: 'U.S. state. You can enter an abbreviation like FL or the full name like Florida.',
     }),
     defineField({
       name: 'rating',

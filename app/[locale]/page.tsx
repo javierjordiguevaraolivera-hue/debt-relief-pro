@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import { CustomerStoriesCarousel } from "./components/CustomerStoriesCarousel";
 import { SiteFooter, SiteHeader } from "./components/SiteChrome";
 import { getCustomerStories, type CustomerStoryCard } from "@/lib/sanity/customerStories";
 import { getPosts } from "@/lib/sanity/posts";
@@ -386,44 +387,40 @@ export default async function HomePage({ params }: PageProps) {
         </section>
 
         <section id="testimonials" className="mx-auto max-w-7xl px-4 py-14 md:px-5 md:py-20">
-          <div className="flex items-center justify-between gap-4">
+          <div className="mx-auto max-w-3xl text-center">
             <h2 className="text-3xl font-bold tracking-normal text-[#02163a] md:text-4xl">
               {t.clientStories.homeTitle}
             </h2>
-            <Link href={`/${locale}/client-stories`} className="font-bold text-emerald-700">
+            <Link href={`/${locale}/client-stories`} className="mt-3 inline-flex font-bold text-emerald-700">
               {t.clientStories.title}
             </Link>
           </div>
-          <div className="scrollbar-hidden mt-8 flex snap-x gap-5 overflow-x-auto pb-2 md:grid md:grid-cols-3 md:overflow-visible md:pb-0">
-            {homeCustomerStories.map((story) => (
-              <Link
-                key={story._id}
-                href={`/${locale}/client-stories/${story.slug}`}
-                className="group w-[82vw] shrink-0 snap-start rounded-lg border border-slate-200 bg-white p-4 shadow-sm md:w-auto"
-              >
-                {story.imageUrl ? (
-                  <Image
-                    src={story.imageUrl}
-                    alt={story.imageAlt || story.name}
-                    width={480}
-                    height={480}
-                    className="aspect-square w-full rounded-md object-cover"
-                  />
-                ) : null}
-                <div className="mt-4 flex items-center justify-between gap-3">
-                  <h3 className="text-xl font-bold text-[#02163a] group-hover:text-emerald-700">{story.name}</h3>
-                  {story.state ? <span className="text-sm font-bold text-slate-500">{story.state}</span> : null}
-                </div>
-                <p className="mt-3 text-sm font-bold uppercase tracking-[0.14em] text-amber-600">
+          <CustomerStoriesCarousel
+            locale={locale}
+            readMoreLabel={t.clientStories.readMore}
+            stories={homeCustomerStories}
+          />
+          {/*
+                <p className="mt-3 text-sm font-bold text-amber-600">
                   {"★".repeat(story.rating || 5)}
                 </p>
                 {story.quote ? (
-                  <p className="mt-3 text-lg leading-8 text-slate-700">&ldquo;{story.quote}&rdquo;</p>
+                  <p className="mt-3 line-clamp-4 text-sm leading-6 text-slate-700">&ldquo;{story.quote}&rdquo;</p>
                 ) : null}
-                <p className="mt-5 font-bold text-emerald-700">{t.clientStories.readMore}</p>
+                <p className="mt-5 text-sm font-bold text-emerald-700">{t.clientStories.readMore}</p>
               </Link>
             ))}
           </div>
+          <div className="mt-5 flex justify-center gap-2 md:hidden" aria-hidden="true">
+            {homeCustomerStories.map((story, storyIndex) => (
+              <a
+                key={story._id}
+                href={`#home-story-${storyIndex + 1}`}
+                className={`h-2.5 w-2.5 rounded-full ${storyIndex === 0 ? "bg-[#02163a]" : "bg-slate-300"}`}
+              />
+            ))}
+          </div>
+          */}
         </section>
 
         <section className="bg-emerald-600 px-4 py-12 text-white md:px-5">

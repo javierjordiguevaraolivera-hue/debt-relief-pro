@@ -10,6 +10,7 @@ import { isLocale, type Locale } from "@/lib/i18n/locales";
 import { getTranslations } from "@/lib/i18n/translations";
 import { getAdBanners, selectAdBanner } from "@/lib/sanity/adBanners";
 import { getCustomerStoryBySlug } from "@/lib/sanity/customerStories";
+import { formatUsState } from "@/lib/usStates";
 
 type PageProps = {
   params: Promise<{ locale: string; slug: string }>;
@@ -81,7 +82,7 @@ export default async function ClientStoryPage({ params }: PageProps) {
           <article className="max-w-4xl">
             <div className="flex flex-wrap items-center gap-3 text-sm font-bold uppercase tracking-[0.14em] text-slate-500">
               {date ? <span>{date}</span> : null}
-              {story.state ? <span>{story.state}</span> : null}
+              {formatUsState(story.state) ? <span>{formatUsState(story.state)}</span> : null}
               <span className="text-amber-600">{"★".repeat(story.rating || 5)}</span>
             </div>
             <h1 className="mt-4 text-4xl font-bold leading-tight tracking-normal text-[#02163a] md:text-5xl">

@@ -7,6 +7,7 @@ import { SiteFooter, SiteHeader } from "../components/SiteChrome";
 import { isLocale, type Locale } from "@/lib/i18n/locales";
 import { getTranslations } from "@/lib/i18n/translations";
 import { getCustomerStories } from "@/lib/sanity/customerStories";
+import { formatUsState } from "@/lib/usStates";
 
 type PageProps = {
   params: Promise<{ locale: string }>;
@@ -64,7 +65,9 @@ export default async function ClientStoriesPage({ params }: PageProps) {
                 ) : null}
                 <div className="mt-4 flex items-center justify-between gap-3">
                   <h2 className="text-xl font-bold text-[#02163a] group-hover:text-emerald-700">{story.name}</h2>
-                  {story.state ? <span className="text-sm font-bold text-slate-500">{story.state}</span> : null}
+                  {formatUsState(story.state) ? (
+                    <span className="text-sm font-bold text-slate-500">{formatUsState(story.state)}</span>
+                  ) : null}
                 </div>
                 <p className="mt-3 text-sm font-bold uppercase tracking-[0.14em] text-amber-600">
                   {"★".repeat(story.rating || 5)}
