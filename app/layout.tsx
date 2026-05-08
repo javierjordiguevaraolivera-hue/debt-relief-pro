@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  other: {
+    charset: "utf-8",
+  },
   title: {
     default: process.env.NEXT_PUBLIC_BRAND_NAME || "Debt Relief Pro",
     template: `%s | ${process.env.NEXT_PUBLIC_BRAND_NAME || "Debt Relief Pro"}`,
