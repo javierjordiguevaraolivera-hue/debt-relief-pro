@@ -90,7 +90,7 @@ function formatStoryCard(story: CustomerStoryCard & { image?: unknown }): Custom
     publishedAt: story.publishedAt,
     quote: story.quote,
     rating: story.rating,
-    imageUrl: story.image ? urlFor(story.image).width(960).height(640).url() : undefined,
+    imageUrl: story.image ? urlFor(story.image).width(480).height(480).url() : undefined,
     imageAlt: story.imageAlt,
   };
 }

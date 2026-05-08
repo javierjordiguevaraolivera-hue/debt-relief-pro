@@ -405,9 +405,9 @@ export default async function HomePage({ params }: PageProps) {
                   <Image
                     src={story.imageUrl}
                     alt={story.imageAlt || story.name}
-                    width={640}
-                    height={420}
-                    className="aspect-[4/3] w-full rounded-md object-cover"
+                    width={480}
+                    height={480}
+                    className="aspect-square w-full rounded-md object-cover"
                   />
                 ) : null}
                 <div className="mt-4 flex items-center justify-between gap-3">

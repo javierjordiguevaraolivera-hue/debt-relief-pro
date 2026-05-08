@@ -137,6 +137,7 @@ export const translations = {
       back: "Back to client stories",
       empty: "Client stories will appear here after they are published in Sanity.",
       homeTitle: "Client stories",
+      storyCtas: ["Apply for relief", "See if I qualify", "Reduce my debt"],
     },
     footer: {
       disclosure:
@@ -281,6 +282,7 @@ export const translations = {
       back: "Volver a historias de clientes",
       empty: "Las historias de clientes aparecerán aquí cuando se publiquen en Sanity.",
       homeTitle: "Historias de clientes",
+      storyCtas: ["Aplicar al Beneficio", "Ver si califico", "Reducir mi deuda"],
     },
     footer: {
       disclosure:
