@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import type { Locale } from "@/lib/i18n/locales";
 import { alternateLocale } from "@/lib/i18n/locales";
@@ -14,9 +15,12 @@ export function SiteHeader({ locale }: { locale: Locale }) {
     <header className="sticky top-0 z-40 border-b border-stone-200 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4">
         <Link href={`/${locale}`} className="font-semibold tracking-tight text-slate-950">
-          <img
+          <Image
             src="/media/debt%20relief%20pro%20logo.svg"
             alt={brand}
+            width={2400}
+            height={600}
+            priority
             className="h-10 w-auto"
           />
         </Link>
@@ -58,9 +62,11 @@ export function SiteFooter({ locale }: { locale: Locale }) {
     <footer className="border-t border-stone-200 bg-stone-50">
       <div className="mx-auto grid max-w-7xl gap-6 px-5 py-10 text-sm text-slate-600 md:grid-cols-[1fr_auto]">
         <div>
-          <img
+          <Image
             src="/media/debt%20relief%20pro%20logo.svg"
             alt={brand}
+            width={2400}
+            height={600}
             className="h-9 w-auto"
           />
           <p className="mt-3 max-w-3xl leading-6">{t.footer.disclosure}</p>
