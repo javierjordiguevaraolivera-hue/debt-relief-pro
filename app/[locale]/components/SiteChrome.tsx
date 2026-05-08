@@ -59,7 +59,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
   const brand = process.env.NEXT_PUBLIC_BRAND_NAME || "Debt Relief Pro";
 
   return (
-    <footer className="border-t border-stone-200 bg-stone-50">
+    <footer className="shrink-0 border-t border-stone-200 bg-stone-50">
       <div className="mx-auto grid max-w-7xl gap-6 px-5 py-10 text-sm text-slate-600 md:grid-cols-[1fr_auto]">
         <div>
           <Image

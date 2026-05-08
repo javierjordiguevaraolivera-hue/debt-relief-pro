@@ -47,9 +47,9 @@ export default async function HomePage({ params }: PageProps) {
   const posts = await getPosts(locale, 3);
 
   return (
-    <div className="min-h-screen bg-white text-slate-950">
+    <div className="flex min-h-dvh flex-col bg-white text-slate-950">
       <SiteHeader locale={locale} />
-      <main>
+      <main className="flex-1">
         <section className="relative overflow-hidden bg-stone-50">
           <div className="mx-auto grid max-w-7xl gap-12 px-5 py-16 md:grid-cols-[1.05fr_0.95fr] md:py-24">
             <div className="flex flex-col justify-center">

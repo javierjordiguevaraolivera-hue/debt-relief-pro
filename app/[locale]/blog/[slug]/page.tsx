@@ -54,9 +54,9 @@ export default async function PostPage({ params }: PageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-white text-slate-950">
+    <div className="flex min-h-dvh flex-col bg-white text-slate-950">
       <SiteHeader locale={locale} />
-      <main className="mx-auto max-w-4xl px-5 py-12">
+      <main className="mx-auto w-full max-w-4xl flex-1 px-5 py-12">
         <Link href={`/${locale}/blog`} className="font-semibold text-emerald-700">
           {t.blog.back}
         </Link>

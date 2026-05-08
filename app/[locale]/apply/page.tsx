@@ -43,9 +43,9 @@ export default async function ApplyPage({ params }: PageProps) {
   const t = getTranslations(locale);
 
   return (
-    <div className="min-h-screen bg-stone-50 text-slate-950">
+    <div className="flex min-h-dvh flex-col bg-stone-50 text-slate-950">
       <SiteHeader locale={locale} />
-      <main className="mx-auto grid max-w-7xl gap-10 px-5 py-14 md:grid-cols-[0.9fr_1.1fr]">
+      <main className="mx-auto grid w-full max-w-7xl flex-1 gap-10 px-5 py-14 md:grid-cols-[0.9fr_1.1fr]">
         <section className="flex flex-col justify-center">
           <p className="text-sm font-semibold uppercase tracking-[0.18em] text-emerald-700">
             {t.nav.apply}

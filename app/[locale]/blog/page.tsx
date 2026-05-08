@@ -45,9 +45,9 @@ export default async function BlogPage({ params }: PageProps) {
   const posts = await getPosts(locale);
 
   return (
-    <div className="min-h-screen bg-white text-slate-950">
+    <div className="flex min-h-dvh flex-col bg-white text-slate-950">
       <SiteHeader locale={locale} />
-      <main className="mx-auto max-w-7xl px-5 py-14">
+      <main className="mx-auto w-full max-w-7xl flex-1 px-5 py-14">
         <div className="max-w-3xl">
           <h1 className="text-4xl font-semibold tracking-normal md:text-5xl">{t.blog.title}</h1>
           <p className="mt-4 text-lg leading-8 text-slate-700">{t.blog.description}</p>
