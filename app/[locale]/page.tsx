@@ -4,7 +4,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { SiteFooter, SiteHeader } from "./components/SiteChrome";
-import { getPhoneDisplay, getPhoneHref, getSupportHours } from "@/lib/ringba";
 import { getPosts } from "@/lib/sanity/posts";
 import { getTranslations } from "@/lib/i18n/translations";
 import { isLocale, type Locale } from "@/lib/i18n/locales";
@@ -45,95 +44,152 @@ export default async function HomePage({ params }: PageProps) {
   const locale: Locale = rawLocale;
   const t = getTranslations(locale);
   const posts = await getPosts(locale, 3);
+  const stories =
+    locale === "es"
+      ? [
+          {
+            name: "Andrea A.",
+            image: "/media/happy-family-es1.png",
+            quote:
+              "Poder confiar en el proceso nos permitio enfocarnos en lo mas importante para nuestra familia.",
+            debt: "$51,361",
+            payment: "$684",
+            length: "53 meses",
+            savings: "$15,068",
+            result: "Andrea redujo 29% de su deuda",
+          },
+          {
+            name: "Carlos M.",
+            image: "/media/happy-man-es2.png",
+            quote:
+              "Tener un plan claro cambio la forma en que veia mis pagos y mi futuro financiero.",
+            debt: "$34,728",
+            payment: "$546",
+            length: "46 meses",
+            savings: "$10,648",
+            result: "Carlos redujo 31% de su deuda",
+          },
+        ]
+      : [
+          {
+            name: "Andrea A.",
+            image: "/media/happy-family-es1.png",
+            quote:
+              "Being able to trust the process allowed us to focus on what mattered most for our family.",
+            debt: "$51,361",
+            payment: "$684",
+            length: "53 months",
+            savings: "$15,068",
+            result: "Andrea saved 29% on her debt",
+          },
+          {
+            name: "Carlos M.",
+            image: "/media/happy-man-es2.png",
+            quote:
+              "Having a clear plan changed how I looked at my payments and my financial future.",
+            debt: "$34,728",
+            payment: "$546",
+            length: "46 months",
+            savings: "$10,648",
+            result: "Carlos saved 31% on his debt",
+          },
+        ];
+  const heroStory = stories[0];
 
   return (
     <div className="flex min-h-dvh flex-col bg-white text-slate-950">
       <SiteHeader locale={locale} />
       <main className="flex-1">
-        <section className="relative overflow-hidden bg-[#f4f8fb]">
-          <div className="absolute inset-x-0 top-0 h-32 bg-[#113b5f]" aria-hidden="true" />
-          <div className="relative mx-auto grid max-w-7xl gap-8 px-4 py-8 md:grid-cols-[1fr_420px] md:px-5 md:py-14 lg:py-20">
-            <div className="flex flex-col justify-center rounded-lg bg-white p-6 shadow-sm md:bg-transparent md:p-0 md:shadow-none">
-              <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700 md:text-sm">
-                {t.home.eyebrow}
-              </p>
-              <h1 className="mt-4 max-w-4xl text-4xl font-bold leading-tight tracking-normal text-[#123b5d] md:text-6xl">
-                {t.home.heroTitle}
-              </h1>
-              <p className="mt-5 max-w-2xl text-base leading-7 text-slate-700 md:text-xl md:leading-8">
-                {t.home.heroText}
-              </p>
-              <div className="mt-6 grid gap-3 text-sm font-semibold text-slate-800 sm:grid-cols-3">
-                {t.home.reviewStats.map((stat) => (
-                  <div key={stat.label} className="rounded-md border border-slate-200 bg-white p-4">
-                    <p className="text-2xl font-bold text-emerald-700">{stat.value}</p>
-                    <p className="mt-1 leading-5">{stat.label}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+        <section className="bg-[#20234f]">
+          <div className="grid min-h-[640px] lg:grid-cols-2">
+            <div className="relative min-h-[225px] overflow-hidden sm:min-h-[380px] lg:min-h-[760px]">
+              <Image
+                src={heroStory.image}
+                alt={heroStory.name}
+                fill
+                priority
+                sizes="(min-width: 1024px) 50vw, 100vw"
+                className="object-cover object-center"
+              />
+            </div>
+            <div className="flex items-center justify-center px-5 py-12 text-white sm:px-8 lg:px-14">
+              <div className="w-full max-w-3xl text-center">
+                <p className="text-lg font-semibold">{heroStory.name}</p>
+                <blockquote className="mt-6 text-2xl font-bold italic leading-snug md:text-4xl md:leading-tight">
+                  &ldquo;{heroStory.quote}&rdquo;
+                </blockquote>
                 <Link
                   href={`/${locale}/apply`}
-                  className="rounded-md bg-emerald-600 px-6 py-4 text-center font-bold uppercase text-white shadow-sm hover:bg-emerald-700"
+                  className="mt-8 inline-flex rounded-full bg-emerald-600 px-8 py-4 text-lg font-bold text-white hover:bg-emerald-700"
                 >
                   {t.home.primaryCta}
                 </Link>
-                <a
-                  href={getPhoneHref()}
-                  className="rounded-md border border-[#123b5d] px-6 py-4 text-center font-bold uppercase text-[#123b5d] hover:bg-white"
-                >
-                  {t.home.secondaryCta}
-                </a>
+                <div className="mx-auto mt-8 grid max-w-2xl grid-cols-2 border-white/30 text-sm md:grid-cols-4">
+                  <div className="border-b border-r border-white/30 p-4 md:border-b-0">
+                    <p>{t.home.storyDebt}</p>
+                    <p className="mt-1 text-2xl font-bold text-emerald-400">{heroStory.debt}</p>
+                  </div>
+                  <div className="border-b border-white/30 p-4 md:border-b-0 md:border-r">
+                    <p>{t.home.storyPayment}</p>
+                    <p className="mt-1 text-2xl font-bold text-emerald-400">{heroStory.payment}</p>
+                  </div>
+                  <div className="border-r border-white/30 p-4">
+                    <p>{t.home.storyLength}</p>
+                    <p className="mt-1 text-2xl font-bold text-emerald-400">{heroStory.length}</p>
+                  </div>
+                  <div className="p-4">
+                    <p>{t.home.storySavings}</p>
+                    <p className="mt-1 text-2xl font-bold text-emerald-400">{heroStory.savings}</p>
+                  </div>
+                </div>
+                <p className="mt-5 text-2xl font-bold text-emerald-400">{heroStory.result}</p>
+                <div className="mt-12 flex justify-center gap-3">
+                  {stories.map((story, index) => (
+                    <span
+                      key={story.name}
+                      className={`h-3 w-3 rounded-full ${index === 0 ? "bg-white" : "bg-white/35"}`}
+                    />
+                  ))}
+                </div>
               </div>
-              <p className="mt-4 text-sm leading-6 text-slate-600">{t.home.trustNote}</p>
             </div>
-
-            <aside className="rounded-lg border border-slate-200 bg-white p-5 shadow-xl md:p-6">
-              <div className="rounded-md bg-[#113b5f] p-5 text-white">
-                <p className="text-sm font-bold uppercase text-emerald-200">{t.home.estimateTitle}</p>
-                <p className="mt-2 text-sm leading-6 text-slate-100">{t.home.estimateSubtitle}</p>
-              </div>
-              <form action={`/${locale}/apply`} className="mt-5 grid gap-4">
-                <label className="grid gap-2">
-                  <span className="text-sm font-bold text-slate-900">{t.home.debtSelectLabel}</span>
-                  <select className="h-12 rounded-md border border-slate-300 bg-white px-3 text-base font-semibold text-slate-950 outline-none focus:border-emerald-600">
-                    <option>$10,000 - $14,999</option>
-                    <option>$15,000 - $24,999</option>
-                    <option>$25,000 - $49,999</option>
-                    <option>$50,000 - $74,999</option>
-                    <option>$75,000+</option>
-                  </select>
-                </label>
-                <button
-                  type="submit"
-                  className="rounded-md bg-emerald-600 px-5 py-4 text-sm font-bold uppercase text-white shadow-sm hover:bg-emerald-700"
-                >
-                  {t.home.estimateButton}
-                </button>
-              </form>
-              <div className="mt-5 rounded-md bg-amber-50 p-4">
-                <p className="text-xs font-bold uppercase text-amber-700">{getSupportHours()}</p>
-                <a href={getPhoneHref()} className="mt-2 block text-xl font-bold text-[#123b5d]">
-                    {getPhoneDisplay()}
-                </a>
-              </div>
-            </aside>
           </div>
         </section>
 
-        <section className="border-y border-slate-200 bg-white px-4 py-8">
-          <div className="mx-auto max-w-7xl">
-            <p className="text-center text-sm font-bold uppercase tracking-[0.16em] text-slate-500">
-              {t.home.reviewTitle}
-            </p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              {t.home.reviewStats.map((stat) => (
-                <div key={stat.label} className="rounded-md bg-slate-50 p-4 text-center">
-                  <p className="text-3xl font-bold text-[#123b5d]">{stat.value}</p>
-                  <p className="mt-1 text-sm font-semibold text-slate-600">{stat.label}</p>
-                </div>
-              ))}
+        <section className="bg-white px-5 py-10 md:py-14">
+          <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-[1fr_360px] md:items-start">
+            <div>
+              <h1 className="text-center text-3xl font-bold leading-tight text-[#20234f] md:text-left md:text-5xl">
+                {t.home.consultTitle}
+              </h1>
+              <ul className="mt-7 grid gap-4 text-lg text-[#20234f]">
+                {t.home.consultBullets.map((item) => (
+                  <li key={item} className="flex gap-3">
+                    <span className="font-bold text-emerald-600">+</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
+            <form action={`/${locale}/apply`} className="rounded-lg border border-slate-200 bg-[#f4f8fb] p-5 shadow-sm">
+              <label className="grid gap-2">
+                <span className="text-sm font-bold text-[#20234f]">{t.home.debtSelectLabel}</span>
+                <select className="h-12 rounded-md border border-slate-300 bg-white px-3 text-base font-semibold text-slate-950 outline-none focus:border-emerald-600">
+                  <option>$10,000 - $14,999</option>
+                  <option>$15,000 - $24,999</option>
+                  <option>$25,000 - $49,999</option>
+                  <option>$50,000 - $74,999</option>
+                  <option>$75,000+</option>
+                </select>
+              </label>
+              <button
+                type="submit"
+                className="mt-4 w-full rounded-full bg-emerald-600 px-5 py-4 text-sm font-bold uppercase text-white hover:bg-emerald-700"
+              >
+                {t.home.estimateButton}
+              </button>
+              <p className="mt-4 text-sm leading-6 text-slate-600">{t.home.trustNote}</p>
+            </form>
           </div>
         </section>
 

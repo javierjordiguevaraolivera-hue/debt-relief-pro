@@ -21,6 +21,16 @@ export const translations = {
       estimateSubtitle: "Select your estimated unsecured debt to begin.",
       debtSelectLabel: "Your estimated debt owed",
       estimateButton: "See my options",
+      storyDebt: "Total Debt",
+      storyPayment: "Monthly Payment",
+      storyLength: "Program Length",
+      storySavings: "Total Savings",
+      consultTitle: "Get a free, no-obligation debt relief consultation",
+      consultBullets: [
+        "Get a free savings estimate today",
+        "See how quickly you can be debt free",
+        "No fees until your accounts are settled",
+      ],
       reviewTitle: "Trusted by people looking for a clearer way out",
       reviewStats: [
         { value: "4.8/5", label: "Average client rating" },
@@ -121,6 +131,16 @@ export const translations = {
       estimateSubtitle: "Selecciona tu deuda sin garantia estimada para comenzar.",
       debtSelectLabel: "Tu deuda estimada",
       estimateButton: "Ver mis opciones",
+      storyDebt: "Deuda total",
+      storyPayment: "Pago mensual",
+      storyLength: "Duracion del programa",
+      storySavings: "Ahorro total",
+      consultTitle: "Obten una consulta gratuita y sin obligacion",
+      consultBullets: [
+        "Recibe un estimado de ahorro gratis hoy",
+        "Mira que tan rapido podrias salir de deudas",
+        "Sin cargos hasta que tus cuentas sean negociadas",
+      ],
       reviewTitle: "Confianza para personas que buscan una salida mas clara",
       reviewStats: [
         { value: "4.8/5", label: "Calificacion promedio" },
