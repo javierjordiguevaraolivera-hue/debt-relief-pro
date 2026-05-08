@@ -16,7 +16,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-5 py-4">
         <Link href={`/${locale}`} className="font-semibold tracking-tight text-slate-950">
           <Image
-            src="/media/debt%20relief%20pro%20logo.svg"
+            src="/media/debt%20relief%20pro%20logo%20-%20v2.png"
             alt={brand}
             width={2400}
             height={600}
@@ -63,7 +63,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
       <div className="mx-auto grid max-w-7xl gap-6 px-5 py-10 text-sm text-slate-600 md:grid-cols-[1fr_auto]">
         <div>
           <Image
-            src="/media/debt%20relief%20pro%20logo.svg"
+            src="/media/debt%20relief%20pro%20logo%20-%20v2.png"
             alt={brand}
             width={2400}
             height={600}
