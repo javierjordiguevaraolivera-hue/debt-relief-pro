@@ -27,7 +27,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         <nav className="hidden items-center gap-6 text-sm font-semibold uppercase text-slate-700 lg:flex">
           <a href={`/${locale}#benefits`}>{t.nav.benefits}</a>
           <a href={`/${locale}#process`}>{t.nav.process}</a>
-          <a href={`/${locale}#testimonials`}>{t.nav.testimonials}</a>
+          <Link href={`/${locale}/client-stories`}>{t.nav.testimonials}</Link>
           <Link href={`/${locale}/blog`}>{t.nav.blog}</Link>
         </nav>
         <div className="flex min-w-0 items-center gap-2">
@@ -58,9 +58,9 @@ export function SiteHeader({ locale }: { locale: Locale }) {
         <a className="shrink-0" href={`/${locale}#process`}>
           {t.nav.process}
         </a>
-        <a className="shrink-0" href={`/${locale}#testimonials`}>
+        <Link className="shrink-0" href={`/${locale}/client-stories`}>
           {t.nav.testimonials}
-        </a>
+        </Link>
         <Link className="shrink-0" href={`/${locale}/blog`}>
           {t.nav.blog}
         </Link>

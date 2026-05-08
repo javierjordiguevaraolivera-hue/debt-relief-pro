@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { SiteFooter, SiteHeader } from "./components/SiteChrome";
+import { getCustomerStories, type CustomerStoryCard } from "@/lib/sanity/customerStories";
 import { getPosts } from "@/lib/sanity/posts";
 import { getTranslations } from "@/lib/i18n/translations";
 import { isLocale, type Locale } from "@/lib/i18n/locales";
@@ -44,6 +45,7 @@ export default async function HomePage({ params }: PageProps) {
   const locale: Locale = rawLocale;
   const t = getTranslations(locale);
   const posts = await getPosts(locale, 3);
+  const sanityStories = await getCustomerStories(locale, 3);
   const stories =
     locale === "es"
       ? [
@@ -94,6 +96,17 @@ export default async function HomePage({ params }: PageProps) {
             result: "Carlos saved 31% on his debt",
           },
         ];
+  const fallbackCustomerStories: CustomerStoryCard[] = stories.map((story, index) => ({
+    _id: `fallback-${index}`,
+    name: story.name,
+    slug: index === 0 ? "andrea-a" : "carlos-m",
+    quote: story.quote,
+    rating: 5,
+    state: index === 0 ? "FL" : "TX",
+    imageUrl: story.image,
+    imageAlt: story.name,
+  }));
+  const homeCustomerStories = sanityStories.length ? sanityStories : fallbackCustomerStories;
   const reviewPlatforms = [
     {
       name: "Google",
@@ -226,7 +239,7 @@ export default async function HomePage({ params }: PageProps) {
           </div>
         </section>
 
-        <section className="bg-white px-5 py-12 md:py-20">
+        <section id="benefits" className="bg-white px-5 py-12 md:py-20">
           <div className="mx-auto max-w-5xl">
             <h2 className="max-w-4xl text-3xl font-bold uppercase leading-tight tracking-normal text-[#02163a] md:text-5xl">
               {t.home.servicesTitle}
@@ -373,16 +386,42 @@ export default async function HomePage({ params }: PageProps) {
         </section>
 
         <section id="testimonials" className="mx-auto max-w-7xl px-4 py-14 md:px-5 md:py-20">
-          <h2 className="text-3xl font-bold tracking-normal text-[#02163a] md:text-4xl">
-            {t.home.testimonialsTitle}
-          </h2>
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {t.home.testimonials.map((item) => (
-              <blockquote key={item.quote} className="rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
-                <p className="text-sm font-bold uppercase tracking-[0.18em] text-amber-600">5 star review</p>
-                <p className="mt-4 text-lg leading-8 text-slate-800">&ldquo;{item.quote}&rdquo;</p>
-                <footer className="mt-4 font-bold text-slate-950">{item.name}</footer>
-              </blockquote>
+          <div className="flex items-center justify-between gap-4">
+            <h2 className="text-3xl font-bold tracking-normal text-[#02163a] md:text-4xl">
+              {t.clientStories.homeTitle}
+            </h2>
+            <Link href={`/${locale}/client-stories`} className="font-bold text-emerald-700">
+              {t.clientStories.title}
+            </Link>
+          </div>
+          <div className="scrollbar-hidden mt-8 flex snap-x gap-5 overflow-x-auto pb-2 md:grid md:grid-cols-3 md:overflow-visible md:pb-0">
+            {homeCustomerStories.map((story) => (
+              <Link
+                key={story._id}
+                href={`/${locale}/client-stories/${story.slug}`}
+                className="group w-[82vw] shrink-0 snap-start rounded-lg border border-slate-200 bg-white p-4 shadow-sm md:w-auto"
+              >
+                {story.imageUrl ? (
+                  <Image
+                    src={story.imageUrl}
+                    alt={story.imageAlt || story.name}
+                    width={640}
+                    height={420}
+                    className="aspect-[4/3] w-full rounded-md object-cover"
+                  />
+                ) : null}
+                <div className="mt-4 flex items-center justify-between gap-3">
+                  <h3 className="text-xl font-bold text-[#02163a] group-hover:text-emerald-700">{story.name}</h3>
+                  {story.state ? <span className="text-sm font-bold text-slate-500">{story.state}</span> : null}
+                </div>
+                <p className="mt-3 text-sm font-bold uppercase tracking-[0.14em] text-amber-600">
+                  {"★".repeat(story.rating || 5)}
+                </p>
+                {story.quote ? (
+                  <p className="mt-3 text-lg leading-8 text-slate-700">&ldquo;{story.quote}&rdquo;</p>
+                ) : null}
+                <p className="mt-5 font-bold text-emerald-700">{t.clientStories.readMore}</p>
+              </Link>
             ))}
           </div>
         </section>

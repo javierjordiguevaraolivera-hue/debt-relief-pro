@@ -130,6 +130,14 @@ export const translations = {
       back: "Back to blog",
       empty: "No posts are published yet.",
     },
+    clientStories: {
+      title: "Client stories",
+      description: "Real experiences from people who took the first step toward debt relief.",
+      readMore: "Read story",
+      back: "Back to client stories",
+      empty: "Client stories will appear here after they are published in Sanity.",
+      homeTitle: "Client stories",
+    },
     footer: {
       disclosure:
         "This website is an affiliate publisher. Information is educational and does not guarantee approval, savings, or program availability.",
@@ -265,6 +273,14 @@ export const translations = {
       readMore: "Leer artículo",
       back: "Volver al blog",
       empty: "Aún no hay posts publicados.",
+    },
+    clientStories: {
+      title: "Historias de clientes",
+      description: "Experiencias reales de personas que dieron el primer paso hacia el alivio de deuda.",
+      readMore: "Leer historia",
+      back: "Volver a historias de clientes",
+      empty: "Las historias de clientes aparecerán aquí cuando se publiquen en Sanity.",
+      homeTitle: "Historias de clientes",
     },
     footer: {
       disclosure:
