@@ -126,9 +126,9 @@ export default async function HomePage({ params }: PageProps) {
       <SiteHeader locale={locale} />
       <main className="flex-1">
         <section className="overflow-hidden bg-[#02163a]">
-          <div className="story-carousel-track scrollbar-hidden flex snap-x snap-mandatory overflow-x-auto lg:transform-none">
-            {stories.map((story, storyIndex) => (
-              <div key={story.name} className="story-carousel-slide grid w-full shrink-0 snap-center lg:grid-cols-2">
+          <div className="scrollbar-hidden flex snap-x snap-mandatory overflow-x-auto">
+              {stories.map((story, storyIndex) => (
+                <div key={story.name} className="grid w-full shrink-0 snap-center lg:grid-cols-2">
                 <div className="relative min-h-[205px] overflow-hidden sm:min-h-[380px] lg:min-h-[760px]">
                   <Image
                     src={story.image}
@@ -182,8 +182,8 @@ export default async function HomePage({ params }: PageProps) {
                     </div>
                   </div>
                 </div>
-              </div>
-            ))}
+                </div>
+              ))}
           </div>
         </section>
 
@@ -206,36 +206,40 @@ export default async function HomePage({ params }: PageProps) {
             <h2 className="text-3xl font-bold tracking-normal text-[#02163a] md:text-5xl">
               {t.home.platformReviewsTitle}
             </h2>
-            <div className="mt-9 grid gap-5 sm:grid-cols-3">
-              {reviewPlatforms.map((platform) => (
-                <article
-                  key={platform.name}
-                  className="rounded-3xl bg-white px-6 py-8 text-[#02163a] shadow-sm"
-                >
-                  <div className="flex min-h-9 items-center justify-center">
-                    <Image
-                      src={platform.logo}
-                      alt={platform.name}
-                      width={platform.logoWidth}
-                      height={platform.logoHeight}
-                      className="h-auto max-h-9 w-auto"
-                    />
-                  </div>
-                  <div className="mt-5 flex justify-center gap-1.5" aria-label={`${platform.score} star rating`}>
-                    <Image
-                      src="/media/review-stars.svg"
-                      alt=""
-                      width={594}
-                      height={146}
-                      className="h-auto w-28"
-                    />
-                  </div>
-                  <p className="mt-5 text-lg text-[#02163a]">
-                    <span className="font-bold">{platform.score}</span>
-                    <span> - {platform.count}</span>
-                  </p>
-                </article>
-              ))}
+            <div className="reviews-carousel-viewport mt-9 sm:overflow-visible">
+              <div className="reviews-carousel-track">
+                {[...reviewPlatforms, ...reviewPlatforms].map((platform, index) => (
+                  <article
+                    key={`${platform.name}-${index}`}
+                    className={`reviews-carousel-card rounded-3xl bg-white px-6 py-8 text-[#02163a] shadow-sm ${
+                      index >= reviewPlatforms.length ? "sm:hidden" : ""
+                    }`}
+                  >
+                    <div className="flex min-h-9 items-center justify-center">
+                      <Image
+                        src={platform.logo}
+                        alt={platform.name}
+                        width={platform.logoWidth}
+                        height={platform.logoHeight}
+                        className="h-auto max-h-9 w-auto"
+                      />
+                    </div>
+                    <div className="mt-5 flex justify-center gap-1.5" aria-label={`${platform.score} star rating`}>
+                      <Image
+                        src="/media/review-stars.svg"
+                        alt=""
+                        width={594}
+                        height={146}
+                        className="h-auto w-28"
+                      />
+                    </div>
+                    <p className="mt-5 text-lg text-[#02163a]">
+                      <span className="font-bold">{platform.score}</span>
+                      <span> - {platform.count}</span>
+                    </p>
+                  </article>
+                ))}
+              </div>
             </div>
           </div>
         </section>
