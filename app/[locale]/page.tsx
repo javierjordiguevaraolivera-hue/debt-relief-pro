@@ -100,7 +100,7 @@ export default async function HomePage({ params }: PageProps) {
     <div className="flex min-h-dvh flex-col bg-white text-slate-950">
       <SiteHeader locale={locale} />
       <main className="flex-1">
-        <section className="bg-[#20234f]">
+        <section className="bg-[#02163a]">
           <div className="grid lg:grid-cols-2">
             <div className="relative min-h-[205px] overflow-hidden sm:min-h-[380px] lg:min-h-[760px]">
               <Image
@@ -166,10 +166,10 @@ export default async function HomePage({ params }: PageProps) {
         <section className="bg-white px-5 py-10 md:py-14">
           <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-[1fr_360px] md:items-start">
             <div>
-              <h1 className="text-center text-3xl font-bold leading-tight text-[#20234f] md:text-left md:text-5xl">
+              <h1 className="text-center text-3xl font-bold leading-tight text-[#02163a] md:text-left md:text-5xl">
                 {t.home.consultTitle}
               </h1>
-              <ul className="mt-7 grid gap-4 text-lg text-[#20234f]">
+              <ul className="mt-7 grid gap-4 text-lg text-[#02163a]">
                 {t.home.consultBullets.map((item) => (
                   <li key={item} className="flex gap-3">
                     <span className="font-bold text-emerald-600">+</span>
@@ -180,7 +180,7 @@ export default async function HomePage({ params }: PageProps) {
             </div>
             <form action={`/${locale}/apply`} className="rounded-lg border border-slate-200 bg-[#f4f8fb] p-5 shadow-sm">
               <label className="grid gap-2">
-                <span className="text-sm font-bold text-[#20234f]">{t.home.debtSelectLabel}</span>
+                <span className="text-sm font-bold text-[#02163a]">{t.home.debtSelectLabel}</span>
                 <select className="h-12 rounded-md border border-slate-300 bg-white px-3 text-base font-semibold text-slate-950 outline-none focus:border-emerald-600">
                   <option>$10,000 - $14,999</option>
                   <option>$15,000 - $24,999</option>
@@ -201,7 +201,7 @@ export default async function HomePage({ params }: PageProps) {
         </section>
 
         <section id="benefits" className="mx-auto max-w-7xl px-4 py-14 md:px-5 md:py-20">
-          <h2 className="max-w-3xl text-3xl font-bold tracking-normal text-[#123b5d] md:text-4xl">
+          <h2 className="max-w-3xl text-3xl font-bold tracking-normal text-[#02163a] md:text-4xl">
             {t.home.benefitsTitle}
           </h2>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -217,13 +217,13 @@ export default async function HomePage({ params }: PageProps) {
           </div>
         </section>
 
-        <section id="process" className="bg-[#113b5f] py-14 text-white md:py-20">
+        <section id="process" className="bg-[#02163a] py-14 text-white md:py-20">
           <div className="mx-auto max-w-7xl px-4 md:px-5">
             <h2 className="text-3xl font-bold tracking-normal md:text-4xl">{t.home.processTitle}</h2>
             <div className="mt-8 grid gap-4 md:grid-cols-3">
               {t.home.steps.map((step, index) => (
                 <div key={step} className="rounded-lg border border-white/15 bg-white/5 p-6">
-                  <p className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-400 text-sm font-bold text-[#113b5f]">
+                  <p className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-400 text-sm font-bold text-[#02163a]">
                     {index + 1}
                   </p>
                   <p className="mt-5 leading-7 text-slate-100">{step}</p>
@@ -236,7 +236,7 @@ export default async function HomePage({ params }: PageProps) {
         <section className="bg-[#f4f8fb] py-14 md:py-20">
           <div className="mx-auto grid max-w-7xl gap-8 px-4 md:grid-cols-[0.95fr_1.05fr] md:px-5">
             <div>
-              <h2 className="text-3xl font-bold tracking-normal text-[#123b5d] md:text-4xl">
+              <h2 className="text-3xl font-bold tracking-normal text-[#02163a] md:text-4xl">
                 {t.home.fitTitle}
               </h2>
               <Link
@@ -260,7 +260,7 @@ export default async function HomePage({ params }: PageProps) {
         </section>
 
         <section id="testimonials" className="mx-auto max-w-7xl px-4 py-14 md:px-5 md:py-20">
-          <h2 className="text-3xl font-bold tracking-normal text-[#123b5d] md:text-4xl">
+          <h2 className="text-3xl font-bold tracking-normal text-[#02163a] md:text-4xl">
             {t.home.testimonialsTitle}
           </h2>
           <div className="mt-8 grid gap-4 md:grid-cols-2">
@@ -282,7 +282,7 @@ export default async function HomePage({ params }: PageProps) {
             </div>
             <Link
               href={`/${locale}/apply`}
-              className="rounded-md bg-white px-6 py-4 text-center font-bold uppercase text-[#123b5d] hover:bg-emerald-50"
+              className="rounded-md bg-white px-6 py-4 text-center font-bold uppercase text-[#02163a] hover:bg-emerald-50"
             >
               {t.home.primaryCta}
             </Link>
@@ -291,7 +291,7 @@ export default async function HomePage({ params }: PageProps) {
 
         <section className="mx-auto max-w-7xl px-4 py-14 md:px-5 md:py-20">
           <div className="flex items-center justify-between gap-4">
-            <h2 className="text-3xl font-bold tracking-normal text-[#123b5d]">{t.home.blogTitle}</h2>
+            <h2 className="text-3xl font-bold tracking-normal text-[#02163a]">{t.home.blogTitle}</h2>
             <Link href={`/${locale}/blog`} className="font-bold text-emerald-700">
               {t.nav.blog}
             </Link>

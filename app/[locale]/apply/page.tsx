@@ -50,13 +50,13 @@ export default async function ApplyPage({ params }: PageProps) {
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-emerald-700 md:text-sm">
             {t.nav.apply}
           </p>
-          <h1 className="mt-4 text-4xl font-bold leading-tight tracking-normal text-[#123b5d] md:text-5xl">
+          <h1 className="mt-4 text-4xl font-bold leading-tight tracking-normal text-[#02163a] md:text-5xl">
             {t.apply.title}
           </h1>
           <p className="mt-5 text-base leading-7 text-slate-700 md:text-lg md:leading-8">
             {t.apply.description}
           </p>
-          <div className="mt-8 rounded-lg bg-[#113b5f] p-5 text-white">
+          <div className="mt-8 rounded-lg bg-[#02163a] p-5 text-white">
             <p className="text-sm font-bold uppercase text-emerald-200">{getSupportHours()}</p>
             <a href={getPhoneHref()} className="mt-2 block text-2xl font-bold">
               {getPhoneDisplay()}
