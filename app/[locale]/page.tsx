@@ -101,8 +101,8 @@ export default async function HomePage({ params }: PageProps) {
       <SiteHeader locale={locale} />
       <main className="flex-1">
         <section className="bg-[#20234f]">
-          <div className="grid min-h-[640px] lg:grid-cols-2">
-            <div className="relative min-h-[225px] overflow-hidden sm:min-h-[380px] lg:min-h-[760px]">
+          <div className="grid lg:grid-cols-2">
+            <div className="relative min-h-[205px] overflow-hidden sm:min-h-[380px] lg:min-h-[760px]">
               <Image
                 src={heroStory.image}
                 alt={heroStory.name}
@@ -112,46 +112,53 @@ export default async function HomePage({ params }: PageProps) {
                 className="object-cover object-center"
               />
             </div>
-            <div className="flex items-center justify-center px-5 py-12 text-white sm:px-8 lg:px-14">
-              <div className="w-full max-w-3xl text-center">
-                <p className="text-lg font-semibold">{heroStory.name}</p>
-                <blockquote className="mt-6 text-2xl font-bold italic leading-snug md:text-4xl md:leading-tight">
-                  &ldquo;{heroStory.quote}&rdquo;
-                </blockquote>
-                <Link
-                  href={`/${locale}/apply`}
-                  className="mt-8 inline-flex rounded-full bg-emerald-600 px-8 py-4 text-lg font-bold text-white hover:bg-emerald-700"
+            <div className="scrollbar-hidden flex snap-x snap-mandatory overflow-x-auto text-white lg:overflow-visible">
+              {stories.map((story, storyIndex) => (
+                <div
+                  key={story.name}
+                  className="flex w-full shrink-0 snap-center items-start justify-center px-5 py-7 text-white sm:px-8 sm:py-12 lg:items-center lg:px-14 lg:py-16"
                 >
-                  {t.home.primaryCta}
-                </Link>
-                <div className="mx-auto mt-8 grid max-w-2xl grid-cols-2 border-white/30 text-sm md:grid-cols-4">
-                  <div className="border-b border-r border-white/30 p-4 md:border-b-0">
-                    <p>{t.home.storyDebt}</p>
-                    <p className="mt-1 text-2xl font-bold text-emerald-400">{heroStory.debt}</p>
-                  </div>
-                  <div className="border-b border-white/30 p-4 md:border-b-0 md:border-r">
-                    <p>{t.home.storyPayment}</p>
-                    <p className="mt-1 text-2xl font-bold text-emerald-400">{heroStory.payment}</p>
-                  </div>
-                  <div className="border-r border-white/30 p-4">
-                    <p>{t.home.storyLength}</p>
-                    <p className="mt-1 text-2xl font-bold text-emerald-400">{heroStory.length}</p>
-                  </div>
-                  <div className="p-4">
-                    <p>{t.home.storySavings}</p>
-                    <p className="mt-1 text-2xl font-bold text-emerald-400">{heroStory.savings}</p>
+                  <div className="w-full max-w-3xl text-center">
+                    <p className="text-lg font-semibold">{story.name}</p>
+                    <blockquote className="mt-5 text-xl font-bold italic leading-snug sm:text-2xl md:text-4xl md:leading-tight">
+                      &ldquo;{story.quote}&rdquo;
+                    </blockquote>
+                    <Link
+                      href={`/${locale}/apply`}
+                      className="mt-7 inline-flex rounded-full bg-emerald-600 px-8 py-4 text-lg font-bold text-white hover:bg-emerald-700"
+                    >
+                      {t.home.primaryCta}
+                    </Link>
+                    <div className="mx-auto mt-8 grid max-w-2xl grid-cols-2 border-white/30 text-sm md:grid-cols-4">
+                      <div className="border-b border-r border-white/30 p-4 md:border-b-0">
+                        <p>{t.home.storyDebt}</p>
+                        <p className="mt-1 text-2xl font-bold text-emerald-400">{story.debt}</p>
+                      </div>
+                      <div className="border-b border-white/30 p-4 md:border-b-0 md:border-r">
+                        <p>{t.home.storyPayment}</p>
+                        <p className="mt-1 text-2xl font-bold text-emerald-400">{story.payment}</p>
+                      </div>
+                      <div className="border-r border-white/30 p-4">
+                        <p>{t.home.storyLength}</p>
+                        <p className="mt-1 text-2xl font-bold text-emerald-400">{story.length}</p>
+                      </div>
+                      <div className="p-4">
+                        <p>{t.home.storySavings}</p>
+                        <p className="mt-1 text-2xl font-bold text-emerald-400">{story.savings}</p>
+                      </div>
+                    </div>
+                    <p className="mt-5 text-xl font-bold text-emerald-400 sm:text-2xl">{story.result}</p>
+                    <div className="mt-8 flex justify-center gap-3 lg:hidden">
+                      {stories.map((dotStory, index) => (
+                        <span
+                          key={dotStory.name}
+                          className={`h-3 w-3 rounded-full ${index === storyIndex ? "bg-white" : "bg-white/35"}`}
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
-                <p className="mt-5 text-2xl font-bold text-emerald-400">{heroStory.result}</p>
-                <div className="mt-12 flex justify-center gap-3">
-                  {stories.map((story, index) => (
-                    <span
-                      key={story.name}
-                      className={`h-3 w-3 rounded-full ${index === 0 ? "bg-white" : "bg-white/35"}`}
-                    />
-                  ))}
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
