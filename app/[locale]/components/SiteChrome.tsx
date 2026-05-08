@@ -51,7 +51,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           </Link>
         </div>
       </div>
-      <nav className="mx-auto flex max-w-7xl gap-4 overflow-x-auto border-t border-slate-100 px-4 py-2 text-xs font-bold uppercase text-slate-700 lg:hidden">
+      <nav className="scrollbar-hidden mx-auto flex max-w-7xl gap-4 overflow-x-auto whitespace-nowrap border-t border-slate-100 px-4 py-2 text-xs font-bold uppercase text-slate-700 lg:hidden">
         <a className="shrink-0" href={`/${locale}#benefits`}>
           {t.nav.benefits}
         </a>

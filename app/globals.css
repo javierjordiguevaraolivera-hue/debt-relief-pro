@@ -18,6 +18,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.scrollbar-hidden {
+  scrollbar-width: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
 .article-content {
   color: #334155;
   font-size: 1.0625rem;
