@@ -1,10 +1,13 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 
+import { BlogPostCarousel } from "./components/BlogPostCarousel";
 import { CustomerStoriesCarousel } from "./components/CustomerStoriesCarousel";
 import { SiteFooter, SiteHeader } from "./components/SiteChrome";
+import { buildDebtReliefHeadline, decodeGeoHeader } from "@/lib/geoHeadline";
 import { getCustomerStories, type CustomerStoryCard } from "@/lib/sanity/customerStories";
 import { getPosts } from "@/lib/sanity/posts";
 import { getTranslations } from "@/lib/i18n/translations";
@@ -45,6 +48,11 @@ export default async function HomePage({ params }: PageProps) {
 
   const locale: Locale = rawLocale;
   const t = getTranslations(locale);
+  const requestHeaders = await headers();
+  const localizedServicesTitle = buildDebtReliefHeadline(locale, {
+    city: decodeGeoHeader(requestHeaders.get("x-vercel-ip-city")),
+    state: decodeGeoHeader(requestHeaders.get("x-vercel-ip-country-region")),
+  });
   const posts = await getPosts(locale, 3);
   const sanityStories = await getCustomerStories(locale, 3);
   const stories =
@@ -242,8 +250,8 @@ export default async function HomePage({ params }: PageProps) {
 
         <section id="benefits" className="bg-white px-5 py-12 md:py-20">
           <div className="mx-auto max-w-5xl">
-            <h2 className="max-w-4xl text-3xl font-bold uppercase leading-tight tracking-normal text-[#02163a] md:text-5xl">
-              {t.home.servicesTitle}
+            <h2 className="max-w-3xl text-2xl font-bold uppercase leading-snug tracking-normal text-[#02163a] md:text-4xl">
+              {localizedServicesTitle}
             </h2>
             <div className="mt-7 grid gap-5 text-lg leading-8 text-slate-700">
               {t.home.servicesParagraphs.map((paragraph) => (
@@ -332,7 +340,23 @@ export default async function HomePage({ params }: PageProps) {
               <ul className="mt-7 grid gap-4 text-lg text-[#02163a]">
                 {t.home.consultBullets.map((item) => (
                   <li key={item} className="flex gap-3">
-                    <span className="font-bold text-emerald-600">+</span>
+                    <span className="mt-1 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
+                      <svg
+                        aria-hidden="true"
+                        className="h-3.5 w-3.5"
+                        fill="none"
+                        viewBox="0 0 16 16"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="m3.25 8.35 3.05 3.05 6.45-6.8"
+                          stroke="currentColor"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2.4"
+                        />
+                      </svg>
+                    </span>
                     <span>{item}</span>
                   </li>
                 ))}
@@ -366,12 +390,6 @@ export default async function HomePage({ params }: PageProps) {
               <h2 className="text-3xl font-bold tracking-normal text-[#02163a] md:text-4xl">
                 {t.home.fitTitle}
               </h2>
-              <Link
-                href={`/${locale}/apply`}
-                className="mt-7 inline-flex rounded-md bg-emerald-600 px-6 py-4 text-sm font-bold uppercase text-white hover:bg-emerald-700"
-              >
-                {t.home.primaryCta}
-              </Link>
             </div>
             <ul className="grid gap-3">
               {t.home.fitItems.map((item) => (
@@ -433,38 +451,23 @@ export default async function HomePage({ params }: PageProps) {
               href={`/${locale}/apply`}
               className="rounded-md bg-white px-6 py-4 text-center font-bold uppercase text-[#02163a] hover:bg-emerald-50"
             >
-              {t.home.primaryCta}
+              {locale === "es" ? "Aplicar al Beneficio" : t.home.primaryCta}
             </Link>
           </div>
         </section>
 
-        <section className="mx-auto max-w-7xl px-4 py-14 md:px-5 md:py-20">
-          <div className="flex items-center justify-between gap-4">
-            <h2 className="text-3xl font-bold tracking-normal text-[#02163a]">{t.home.blogTitle}</h2>
-            <Link href={`/${locale}/blog`} className="font-bold text-emerald-700">
-              {t.nav.blog}
-            </Link>
-          </div>
-          <div className="mt-8 grid gap-5 md:grid-cols-3">
-            {posts.length ? (
-              posts.map((post) => (
-                <Link key={post._id} href={`/${locale}/blog/${post.slug}`} className="group rounded-lg border border-slate-200 p-4 shadow-sm">
-                  {post.imageUrl ? (
-                    <Image
-                      src={post.imageUrl}
-                      alt={post.imageAlt || ""}
-                      width={640}
-                      height={360}
-                      className="aspect-video w-full rounded-md object-cover"
-                    />
-                  ) : null}
-                  <h3 className="mt-4 text-xl font-semibold group-hover:text-emerald-700">{post.title}</h3>
-                  {post.excerpt ? <p className="mt-3 leading-7 text-slate-600">{post.excerpt}</p> : null}
-                </Link>
-              ))
-            ) : (
-              <p className="text-slate-600">{t.home.blogEmpty}</p>
-            )}
+        <section className="bg-[#f4f8fb] px-4 py-14 md:px-5 md:py-20">
+          <div className="mx-auto max-w-7xl">
+            <h2 className="text-center text-3xl font-bold tracking-normal text-[#02163a]">
+              {t.home.blogTitle}
+            </h2>
+            <BlogPostCarousel
+              blogLabel={locale === "es" ? "Leer más" : "Read more"}
+              emptyLabel={t.home.blogEmpty}
+              locale={locale}
+              posts={posts}
+              readMoreLabel={locale === "es" ? "Leer más" : "Read more"}
+            />
           </div>
         </section>
       </main>

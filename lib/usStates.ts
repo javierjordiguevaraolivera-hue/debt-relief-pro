@@ -52,6 +52,11 @@ const usStateNames: Record<string, string> = {
   DC: "Washington, DC",
 };
 
+export const usStateOptions = Object.entries(usStateNames).map(([abbreviation, name]) => ({
+  abbreviation,
+  name,
+}));
+
 export function formatUsState(state?: string): string | undefined {
   if (!state) {
     return undefined;

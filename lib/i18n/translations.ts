@@ -107,14 +107,16 @@ export const translations = {
       ctaTitle: "Ready to reduce the stress around your debt?",
       ctaText:
         "Start with a short assessment and continue when you are ready to review your options.",
-      blogTitle: "Debt relief articles",
+      blogTitle: "Essential reading",
       blogEmpty: "Blog posts will appear here after they are published in Sanity.",
     },
     apply: {
       title: "Apply for debt relief",
       description:
         "Answer a few questions and continue to a trusted partner for the next step.",
+      amountEyebrow: "Apply for benefits",
       amountLabel: "Estimated unsecured debt",
+      amountQuestion: "How much debt do you owe?",
       stateLabel: "State",
       hardshipLabel: "Current hardship",
       hardshipPlaceholder: "Job loss, reduced income, medical bills, or another reason",
@@ -252,14 +254,16 @@ export const translations = {
       ctaTitle: "¿Listo para reducir el estrés de tus deudas?",
       ctaText:
         "Empieza con una evaluación breve y continúa cuando estés listo para revisar tus opciones.",
-      blogTitle: "Artículos sobre alivio de deuda",
+      blogTitle: "Lectura esencial",
       blogEmpty: "Los posts aparecerán aquí cuando se publiquen en Sanity.",
     },
     apply: {
       title: "Aplica para alivio de deuda",
       description:
         "Responde unas preguntas y continúa con un socio confiable para el siguiente paso.",
-      amountLabel: "Deuda sin garantía estimada",
+      amountEyebrow: "Aplica para los beneficios",
+      amountLabel: "Monto deuda",
+      amountQuestion: "¿Cuánto debes actualmente?",
       stateLabel: "Estado",
       hardshipLabel: "Dificultad actual",
       hardshipPlaceholder: "Pérdida de empleo, ingresos reducidos, gastos médicos u otra razón",
