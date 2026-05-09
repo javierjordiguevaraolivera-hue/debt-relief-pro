@@ -23,6 +23,7 @@ const debtOptions: Record<Locale, DebtOption[]> = {
     { label: "$0 - $10,000", value: "0" },
     { label: "$10,000 - $20,000", value: "10000" },
     { label: "$20,000 - $32,000", value: "20000" },
+    { label: "$32,000+", value: "32000" },
   ],
 };
 
@@ -35,7 +36,7 @@ export function ApplyForm({
 }) {
   const t = getTranslations(locale);
   const options = debtOptions[locale];
-  const [amount, setAmount] = useState(options[0]?.value || "");
+  const [amount, setAmount] = useState(locale === "es" ? "10000" : options[0]?.value || "");
   const [state, setState] = useState(normalizeState(initialState));
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -95,7 +96,7 @@ export function ApplyForm({
       </label>
       <button
         type="submit"
-        className="rounded-md bg-emerald-600 px-5 py-4 text-sm font-bold uppercase text-white hover:bg-emerald-700"
+        className="rounded-md bg-emerald-600 px-5 py-4 text-base font-bold uppercase text-white hover:bg-emerald-700"
       >
         {locale === "es" ? "Ver si Califico" : t.apply.button}
       </button>
@@ -113,17 +114,18 @@ function ChoiceIcon() {
       xmlns="http://www.w3.org/2000/svg"
     >
       <path
-        d="M16 5v9.6m0 0 4.7 4.7M16 14.6l-4.7 4.7M8.3 11.4v6.1c0 3.6 2.8 6.5 6.3 6.5h2.8c3.5 0 6.3-2.9 6.3-6.5v-6.1"
+        d="M6.5 9.5h19a2.5 2.5 0 0 1 2.5 2.5v11a2.5 2.5 0 0 1-2.5 2.5h-19A2.5 2.5 0 0 1 4 23V12a2.5 2.5 0 0 1 2.5-2.5Z"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"
       />
       <path
-        d="M10 7.5h.01M13 7.5h.01M19 7.5h.01M22 7.5h.01M7 15h.01M25 15h.01"
+        d="M4 15h24M8.5 21.5h5M17 21.5h2.5"
         stroke="currentColor"
         strokeLinecap="round"
-        strokeWidth="2.5"
+        strokeLinejoin="round"
+        strokeWidth="2"
       />
     </svg>
   );

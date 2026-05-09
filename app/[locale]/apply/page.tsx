@@ -84,7 +84,7 @@ export default async function ApplyPage({ params }: PageProps) {
                   alt=""
                   width={24}
                   height={24}
-                  className="h-6 w-6 rounded-full object-cover"
+                  className="h-6 w-6 object-contain"
                 />
                 Apply in English
               </Link>

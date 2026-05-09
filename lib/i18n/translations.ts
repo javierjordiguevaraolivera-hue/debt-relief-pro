@@ -263,7 +263,7 @@ export const translations = {
         "Responde unas preguntas y continúa con un socio confiable para el siguiente paso.",
       amountEyebrow: "Aplica para los beneficios",
       amountLabel: "Monto deuda",
-      amountQuestion: "¿Cuánto debes actualmente?",
+      amountQuestion: "¿Cuál es el monto total de tu deuda?",
       stateLabel: "Estado",
       hardshipLabel: "Dificultad actual",
       hardshipPlaceholder: "Pérdida de empleo, ingresos reducidos, gastos médicos u otra razón",
