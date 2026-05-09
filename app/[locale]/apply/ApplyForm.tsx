@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 import type { Locale } from "@/lib/i18n/locales";
 import { getAffiliateUrl } from "@/lib/affiliate";
+import { forgetApplyStatus, rememberApplyStatus } from "@/lib/applyStatus";
 import { getTranslations } from "@/lib/i18n/translations";
 import { usStateOptions } from "@/lib/usStates";
 
@@ -27,20 +29,51 @@ const debtOptions: Record<Locale, DebtOption[]> = {
   ],
 };
 
+const ineligibleStates = new Set(["CT", "OR", "VT", "WV", "WI"]);
+
 export function ApplyForm({
   initialState,
   locale,
+  resetStoredStatus = false,
 }: {
   initialState?: string;
   locale: Locale;
+  resetStoredStatus?: boolean;
 }) {
+  const router = useRouter();
   const t = getTranslations(locale);
   const options = debtOptions[locale];
   const [amount, setAmount] = useState(locale === "es" ? "10000" : options[0]?.value || "");
   const [state, setState] = useState(normalizeState(initialState));
 
+  useEffect(() => {
+    if (resetStoredStatus) {
+      forgetApplyStatus();
+    }
+  }, [resetStoredStatus]);
+
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (locale === "es") {
+      if (amount === "0") {
+        rememberApplyStatus({ locale, reason: "debt", status: "rejected" });
+        router.push(`/${locale}/apply/rechazo?reason=debt`);
+        return;
+      }
+
+      if (ineligibleStates.has(state)) {
+        rememberApplyStatus({ locale, reason: "state", state, status: "rejected" });
+        router.push(`/${locale}/apply/rechazo?reason=state&state=${state}`);
+        return;
+      }
+
+      const qualificationId = generateQualificationId();
+      rememberApplyStatus({ id: qualificationId, locale, status: "qualified" });
+      router.push(`/${locale}/apply/calificacion?id=${qualificationId}`);
+      return;
+    }
+
     window.location.href = getAffiliateUrl(locale);
   }
 
@@ -142,4 +175,15 @@ function normalizeState(state?: string): string {
   );
 
   return match?.abbreviation || "";
+}
+
+function generateQualificationId(): string {
+  const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  let id = "";
+
+  for (let index = 0; index < 6; index += 1) {
+    id += letters[Math.floor(Math.random() * letters.length)];
+  }
+
+  return id;
 }

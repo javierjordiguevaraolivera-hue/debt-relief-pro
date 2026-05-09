@@ -17,7 +17,7 @@ export function proxy(request: NextRequest) {
   }
 
   const preferredLocale = request.cookies.get(localeCookieName)?.value;
-  const locale = isLocale(preferredLocale)
+  const locale = preferredLocale && isLocale(preferredLocale)
     ? preferredLocale
     : detectLocale(request.headers.get("accept-language"));
   const url = request.nextUrl.clone();

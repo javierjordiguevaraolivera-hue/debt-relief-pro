@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
 import { headers } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { SiteFooter, SiteHeader } from "../components/SiteChrome";
 import { ApplyForm } from "./ApplyForm";
+import {
+  APPLY_STATUS_COOKIE,
+  getApplyStatusPath,
+  parseApplyStatusCookie,
+} from "@/lib/applyStatus";
 import { decodeGeoHeader } from "@/lib/geoHeadline";
 import { isLocale, type Locale } from "@/lib/i18n/locales";
 import { getTranslations } from "@/lib/i18n/translations";
@@ -13,6 +19,7 @@ import { getPhoneDisplay, getPhoneHref, getSupportHours } from "@/lib/ringba";
 
 type PageProps = {
   params: Promise<{ locale: string }>;
+  searchParams?: Promise<{ restart?: string }>;
 };
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
@@ -39,12 +46,24 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   };
 }
 
-export default async function ApplyPage({ params }: PageProps) {
+export default async function ApplyPage({ params, searchParams }: PageProps) {
   const { locale: rawLocale } = await params;
   if (!isLocale(rawLocale)) notFound();
 
   const locale: Locale = rawLocale;
   const t = getTranslations(locale);
+  const { restart } = (await searchParams) || {};
+  const resetStoredStatus = restart === "1";
+
+  if (!resetStoredStatus) {
+    const cookieStore = await cookies();
+    const storedStatus = parseApplyStatusCookie(cookieStore.get(APPLY_STATUS_COOKIE)?.value);
+
+    if (storedStatus) {
+      redirect(getApplyStatusPath(storedStatus, locale));
+    }
+  }
+
   const requestHeaders = await headers();
   const detectedState = decodeGeoHeader(requestHeaders.get("x-vercel-ip-country-region"));
 
@@ -90,7 +109,11 @@ export default async function ApplyPage({ params }: PageProps) {
               </Link>
             </div>
           ) : null}
-          <ApplyForm initialState={detectedState} locale={locale} />
+          <ApplyForm
+            initialState={detectedState}
+            locale={locale}
+            resetStoredStatus={resetStoredStatus}
+          />
         </div>
       </main>
       <SiteFooter locale={locale} />
