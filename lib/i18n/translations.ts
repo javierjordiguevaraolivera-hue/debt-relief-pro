@@ -143,7 +143,7 @@ export const translations = {
     },
     footer: {
       disclosure:
-        "This website is an affiliate publisher. Information is educational and does not guarantee approval, savings, or program availability.",
+        "This site is not part of Facebook or Google; it is an affiliate publisher. Information is educational and does not guarantee approval, savings, or program availability. Results depend on truthful submitted information and completing the benefit claim process.",
       privacy: "Privacy",
       terms: "Terms",
     },
@@ -290,7 +290,7 @@ export const translations = {
     },
     footer: {
       disclosure:
-        "Este sitio web es un publicador afiliado. La información es educativa y no garantiza aprobación, ahorros ni disponibilidad de programas.",
+        "Este sitio no forma parte de Facebook ni Google; es un publicador afiliado. La información es educativa y no garantiza aprobación, ahorros ni disponibilidad de programas. Los resultados dependen de que la información enviada sea verdadera y de completar el reclamo del beneficio.",
       privacy: "Privacidad",
       terms: "Términos",
     },

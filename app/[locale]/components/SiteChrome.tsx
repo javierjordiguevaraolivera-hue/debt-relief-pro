@@ -94,7 +94,9 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             height={600}
             className="h-9 w-auto"
           />
-          <p className="mt-3 max-w-3xl leading-6">{t.footer.disclosure}</p>
+          <p className="mt-3 max-w-3xl text-xs leading-5 text-slate-500">
+            {t.footer.disclosure}
+          </p>
         </div>
         <div className="md:text-right">
           <a href={getPhoneHref()} className="font-semibold text-slate-950">
