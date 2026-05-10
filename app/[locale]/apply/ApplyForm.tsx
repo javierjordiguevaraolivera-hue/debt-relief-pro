@@ -1,10 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import type { Locale } from "@/lib/i18n/locales";
-import { getAffiliateUrl } from "@/lib/affiliate";
 import { forgetApplyStatus, rememberApplyStatus } from "@/lib/applyStatus";
 import { getTranslations } from "@/lib/i18n/translations";
 import { usStateOptions } from "@/lib/usStates";
@@ -16,9 +15,9 @@ type DebtOption = {
 
 const debtOptions: Record<Locale, DebtOption[]> = {
   en: [
-    { label: "$10,000-$14,999", value: "10000" },
-    { label: "$15,000-$24,999", value: "15000" },
-    { label: "$25,000-$49,999", value: "25000" },
+    { label: "$0 - $14,999", value: "0" },
+    { label: "$15,000 - $24,999", value: "15000" },
+    { label: "$25,000 - $49,999", value: "25000" },
     { label: "$50,000+", value: "50000" },
   ],
   es: [
@@ -29,7 +28,10 @@ const debtOptions: Record<Locale, DebtOption[]> = {
   ],
 };
 
-const ineligibleStates = new Set(["CT", "OR", "VT", "WV", "WI"]);
+const ineligibleStatesByLocale: Record<Locale, Set<string>> = {
+  en: new Set(["NV", "PR", "GU"]),
+  es: new Set(["CT", "OR", "VT", "WV", "WI"]),
+};
 
 export function ApplyForm({
   initialState,
@@ -41,10 +43,13 @@ export function ApplyForm({
   resetStoredStatus?: boolean;
 }) {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const t = getTranslations(locale);
   const options = debtOptions[locale];
+  const detectedState = normalizeState(initialState);
   const [amount, setAmount] = useState(locale === "es" ? "10000" : options[0]?.value || "");
-  const [state, setState] = useState(normalizeState(initialState));
+  const [state, setState] = useState(detectedState);
+  const shouldShowStateQuestion = !detectedState;
 
   useEffect(() => {
     if (resetStoredStatus) {
@@ -55,36 +60,50 @@ export function ApplyForm({
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    if (resetStoredStatus) {
+      forgetApplyStatus();
+    }
+
     if (locale === "es") {
       if (amount === "0") {
         rememberApplyStatus({ locale, reason: "debt", status: "rejected" });
-        router.push(`/${locale}/apply/rechazo?reason=debt`);
+        router.push(buildApplyPath(locale, "rechazo", searchParams, { reason: "debt" }));
         return;
       }
 
-      if (ineligibleStates.has(state)) {
+      if (ineligibleStatesByLocale.es.has(state)) {
         rememberApplyStatus({ locale, reason: "state", state, status: "rejected" });
-        router.push(`/${locale}/apply/rechazo?reason=state&state=${state}`);
+        router.push(buildApplyPath(locale, "rechazo", searchParams, { reason: "state", state }));
         return;
       }
 
       const qualificationId = generateQualificationId();
       rememberApplyStatus({ id: qualificationId, locale, status: "qualified" });
-      router.push(`/${locale}/apply/calificacion?id=${qualificationId}`);
+      router.push(buildApplyPath(locale, "calificacion", searchParams, { id: qualificationId }));
       return;
     }
 
-    window.location.href = getAffiliateUrl(locale);
+    if (amount === "0") {
+      rememberApplyStatus({ locale, reason: "debt", status: "rejected" });
+      router.push(buildApplyPath(locale, "rechazo", searchParams, { reason: "debt" }));
+      return;
+    }
+
+    if (ineligibleStatesByLocale.en.has(state)) {
+      rememberApplyStatus({ locale, reason: "state", state, status: "rejected" });
+      router.push(buildApplyPath(locale, "rechazo", searchParams, { reason: "state", state }));
+      return;
+    }
+
+    const qualificationId = generateQualificationId();
+    rememberApplyStatus({ id: qualificationId, locale, status: "qualified" });
+    router.push(buildApplyPath(locale, "calificacion", searchParams, { id: qualificationId }));
   }
 
   return (
     <form
       onSubmit={handleSubmit}
-      className={`grid gap-6 ${
-        locale === "es"
-          ? "px-5 py-6 md:px-0 md:py-8"
-          : "rounded-lg border border-slate-200 bg-white p-5 shadow-xl md:p-7"
-      }`}
+      className="grid gap-6 px-5 py-6 md:px-0 md:py-8"
     >
       <fieldset className="grid gap-4">
         <div className="text-center">
@@ -111,27 +130,29 @@ export function ApplyForm({
           ))}
         </div>
       </fieldset>
-      <label className="grid gap-2">
-        <span className="text-sm font-bold text-slate-900">{t.apply.stateLabel}</span>
-        <select
-          required
-          value={state}
-          onChange={(event) => setState(event.target.value)}
-          className="h-12 rounded-md border border-slate-300 bg-white px-3 text-slate-950 outline-none focus:border-emerald-600"
-        >
-          <option value="">{locale === "es" ? "Selecciona tu estado" : "Select your state"}</option>
-          {usStateOptions.map((option) => (
-            <option key={option.abbreviation} value={option.abbreviation}>
-              {option.name}
-            </option>
-          ))}
-        </select>
-      </label>
+      {shouldShowStateQuestion ? (
+        <label className="grid gap-2">
+          <span className="text-sm font-bold text-slate-900">{t.apply.stateLabel}</span>
+          <select
+            required
+            value={state}
+            onChange={(event) => setState(event.target.value)}
+            className="h-12 rounded-md border border-slate-300 bg-white px-3 text-slate-950 outline-none focus:border-emerald-600"
+          >
+            <option value="">{locale === "es" ? "Selecciona tu estado" : "Select your state"}</option>
+            {usStateOptions.map((option) => (
+              <option key={option.abbreviation} value={option.abbreviation}>
+                {option.name}
+              </option>
+            ))}
+          </select>
+        </label>
+      ) : null}
       <button
         type="submit"
         className="rounded-md bg-emerald-600 px-5 py-4 text-base font-bold uppercase text-white hover:bg-emerald-700"
       >
-        {locale === "es" ? "Ver si Califico" : t.apply.button}
+        {locale === "es" ? "Ver si Califico" : "Check My Eligibility"}
       </button>
     </form>
   );
@@ -186,4 +207,19 @@ function generateQualificationId(): string {
   }
 
   return id;
+}
+
+function buildApplyPath(
+  locale: Locale,
+  step: "calificacion" | "rechazo",
+  currentParams: URLSearchParams,
+  nextParams: Record<string, string>,
+): string {
+  const params = new URLSearchParams(currentParams);
+
+  Object.entries(nextParams).forEach(([key, value]) => {
+    params.set(key, value);
+  });
+
+  return `/${locale}/apply/${step}?${params.toString()}`;
 }

@@ -8,11 +8,45 @@ import { isLocale, type Locale } from "@/lib/i18n/locales";
 
 type QualificationPageProps = {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ id?: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 export const metadata: Metadata = {
-  title: "Felicidades | Debt Relief Pro",
+  title: "Qualification | Debt Relief Pro",
+};
+
+const qualificationCopy: Record<
+  Locale,
+  {
+    eyebrow: string;
+    title: string;
+    description: string;
+    steps: string[];
+    idLabel: string;
+    cta: string;
+    expiration: string;
+  }
+> = {
+  en: {
+    eyebrow: "Congratulations",
+    title: "Your case qualifies for debt relief benefits",
+    description:
+      "This is a real confirmation. All you need to do is claim it. The next step is to complete the form with your details so our partner can:",
+    steps: ["Contact you", "Build your action plan", "Help you with your debt"],
+    idLabel: "Qualification ID",
+    cta: "Claim My Benefit",
+    expiration: "*Your prequalification expires in 2 hours",
+  },
+  es: {
+    eyebrow: "Felicidades",
+    title: "Tu caso si aplica para los beneficios",
+    description:
+      "Esta es una confirmacion real. Solo tienes que reclamarlo. El primer paso es registrarte en el formulario con todos los detalles para:",
+    steps: ["Poder contactarte", "Disenarte un plan de accion", "Ayudarte con tu deuda"],
+    idLabel: "ID de Calificacion",
+    cta: "Reclamar mi Beneficio",
+    expiration: "*Su precalificacion expira en 2 horas",
+  },
 };
 
 export default async function QualificationPage({ params, searchParams }: QualificationPageProps) {
@@ -20,7 +54,11 @@ export default async function QualificationPage({ params, searchParams }: Qualif
   if (!isLocale(rawLocale)) notFound();
 
   const locale: Locale = rawLocale;
-  const { id } = await searchParams;
+  const copy = qualificationCopy[locale];
+  const resolvedSearchParams = await searchParams;
+  const id = Array.isArray(resolvedSearchParams.id)
+    ? resolvedSearchParams.id[0]
+    : resolvedSearchParams.id;
   const qualificationId = normalizeQualificationId(id);
 
   return (
@@ -30,37 +68,34 @@ export default async function QualificationPage({ params, searchParams }: Qualif
       <main className="mx-auto flex w-full max-w-3xl flex-1 items-center px-5 py-7">
         <section className="w-full text-center">
           <p className="text-sm font-bold uppercase tracking-[0.14em] text-emerald-700">
-            Felicidades
+            {copy.eyebrow}
           </p>
           <h1 className="mt-3 text-3xl font-bold leading-tight tracking-normal text-[#02163a] md:text-4xl">
-            Tu caso sí aplica para los beneficios
+            {copy.title}
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-slate-700">
-            Esta es una confirmación real. Solo tienes que reclamarlo. El primer paso es
-            registrarte en el formulario con todos los detalles para:
+            {copy.description}
           </p>
           <ul className="mx-auto mt-5 grid max-w-xs gap-3">
-            <QualificationStep number={1} text="Poder contactarte" />
-            <QualificationStep number={2} text="Diseñarte un plan de acción" />
-            <QualificationStep number={3} text="Ayudarte con tu deuda" />
+            {copy.steps.map((step, index) => (
+              <QualificationStep key={step} number={index + 1} text={step} />
+            ))}
           </ul>
           <div className="mx-auto mt-6 max-w-sm rounded-md border border-slate-200 bg-white/70 p-3">
             <p className="text-xs font-bold uppercase tracking-[0.14em] text-slate-500">
-              ID de Calificación
+              {copy.idLabel}
             </p>
             <p className="mt-1 text-3xl font-bold tracking-[0.2em] text-[#02163a]">
               {qualificationId}
             </p>
           </div>
           <a
-            href={getAffiliateUrl(locale)}
+            href={getAffiliateUrl(locale, resolvedSearchParams)}
             className="mt-6 inline-flex rounded-md bg-emerald-600 px-8 py-4 text-base font-bold uppercase text-white hover:bg-emerald-700"
           >
-            Reclamar mi Beneficio
+            {copy.cta}
           </a>
-          <p className="mt-4 text-sm leading-6 text-slate-600">
-            *Su precalificación expira en 2 horas
-          </p>
+          <p className="mt-4 text-sm leading-6 text-slate-600">{copy.expiration}</p>
         </section>
       </main>
       <SiteFooter locale={locale} />

@@ -4,7 +4,6 @@ import Image from "next/image";
 import type { Locale } from "@/lib/i18n/locales";
 import { alternateLocale } from "@/lib/i18n/locales";
 import { getTranslations } from "@/lib/i18n/translations";
-import { getPhoneDisplay, getPhoneHref, getSupportHours } from "@/lib/ringba";
 
 export function SiteHeader({ locale }: { locale: Locale }) {
   const t = getTranslations(locale);
@@ -34,12 +33,6 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <Link href={`/${locale}/blog`}>{t.nav.blog}</Link>
         </nav>
         <div className="flex min-w-0 items-center gap-2">
-          <a
-            href={getPhoneHref()}
-            className="hidden rounded-md border border-slate-300 px-3 py-2 text-sm font-bold text-slate-900 hover:bg-slate-50 sm:inline-flex"
-          >
-            {getPhoneDisplay()}
-          </a>
           <Link
             href={`/${otherLocale}`}
             aria-label={`Switch to ${languageLabel}`}
@@ -97,12 +90,6 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <p className="mt-3 max-w-3xl text-xs leading-5 text-slate-500">
             {t.footer.disclosure}
           </p>
-        </div>
-        <div className="md:text-right">
-          <a href={getPhoneHref()} className="font-semibold text-slate-950">
-            {getPhoneDisplay()}
-          </a>
-          <p className="mt-2">{getSupportHours()}</p>
         </div>
       </div>
     </footer>

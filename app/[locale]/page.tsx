@@ -332,7 +332,7 @@ export default async function HomePage({ params }: PageProps) {
         </section>
 
         <section className="bg-white px-5 py-10 md:py-14">
-          <div className="mx-auto grid max-w-5xl gap-8 md:grid-cols-[1fr_360px] md:items-start">
+          <div className="mx-auto max-w-5xl">
             <div>
               <h1 className="text-center text-3xl font-bold leading-tight text-[#02163a] md:text-left md:text-5xl">
                 {t.home.consultTitle}
@@ -362,25 +362,6 @@ export default async function HomePage({ params }: PageProps) {
                 ))}
               </ul>
             </div>
-            <form action={`/${locale}/apply`} className="rounded-lg border border-slate-200 bg-[#f4f8fb] p-5 shadow-sm">
-              <label className="grid gap-2">
-                <span className="text-sm font-bold text-[#02163a]">{t.home.debtSelectLabel}</span>
-                <select className="h-12 rounded-md border border-slate-300 bg-white px-3 text-base font-semibold text-slate-950 outline-none focus:border-emerald-600">
-                  <option>$10,000 - $14,999</option>
-                  <option>$15,000 - $24,999</option>
-                  <option>$25,000 - $49,999</option>
-                  <option>$50,000 - $74,999</option>
-                  <option>$75,000+</option>
-                </select>
-              </label>
-              <button
-                type="submit"
-                className="mt-4 w-full rounded-full bg-emerald-600 px-5 py-4 text-sm font-bold uppercase text-white hover:bg-emerald-700"
-              >
-                {t.home.estimateButton}
-              </button>
-              <p className="mt-4 text-sm leading-6 text-slate-600">{t.home.trustNote}</p>
-            </form>
           </div>
         </section>
 

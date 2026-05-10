@@ -236,7 +236,6 @@ export const translations = {
         "Tienes $10,000 o más en deudas sin garantía",
         "Tienes dificultad pagando tarjetas de crédito o préstamos personales",
         "Quieres una alternativa a pagar mínimos durante años",
-        "Necesitas un plan claro antes de hablar con un proveedor",
       ],
       testimonialsTitle: "Historias de clientes",
       testimonials: [

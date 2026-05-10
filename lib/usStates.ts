@@ -50,6 +50,8 @@ const usStateNames: Record<string, string> = {
   WI: "Wisconsin",
   WY: "Wyoming",
   DC: "Washington, DC",
+  PR: "Puerto Rico",
+  GU: "Guam",
 };
 
 export const usStateOptions = Object.entries(usStateNames).map(([abbreviation, name]) => ({
