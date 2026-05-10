@@ -1,14 +1,12 @@
 export type VercelGeoContext = {
   city?: string;
   country?: string;
-  postalCode?: string;
   state?: string;
 };
 
 const geoHeaders = {
   city: "x-vercel-ip-city",
   country: "x-vercel-ip-country",
-  postalCode: "x-vercel-ip-postal-code",
   state: "x-vercel-ip-country-region",
 } as const;
 
@@ -16,7 +14,6 @@ export function getVercelGeoContext(headersList: Headers): VercelGeoContext {
   return {
     city: normalizeGeoValue(headersList.get(geoHeaders.city)),
     country: normalizeGeoValue(headersList.get(geoHeaders.country)),
-    postalCode: normalizeGeoValue(headersList.get(geoHeaders.postalCode)),
     state: normalizeGeoValue(headersList.get(geoHeaders.state)),
   };
 }
@@ -94,8 +91,6 @@ export function buildGtmPageContextScript(geoContext: VercelGeoContext): string 
         return searchParams.get(key) || undefined;
       }
 
-      window.dataLayer = window.dataLayer || [];
-
       var searchParams = new URLSearchParams(window.location.search);
       var clickIds = clickIdKeys.reduce(function (values, key) {
         values[key] = getUrlParam(searchParams, key);
@@ -105,17 +100,14 @@ export function buildGtmPageContextScript(geoContext: VercelGeoContext): string 
       var city = geoContext.city || undefined;
       var state = geoContext.state || undefined;
       var country = geoContext.country || undefined;
-      var postalCode = geoContext.postalCode || undefined;
 
-      window.dataLayer.push({
+      window.dataLayer = [{
         event_id: generateUuid(),
         external_id: getExternalId(),
         language: getLanguage(window.location.pathname),
         city: city,
         state: state,
         country: country,
-        zip: postalCode,
-        postal_code: postalCode,
         page_path: window.location.pathname,
         page_url: window.location.href,
         fbp: readCookie("_fbp"),
@@ -125,9 +117,8 @@ export function buildGtmPageContextScript(geoContext: VercelGeoContext): string 
         wbraid: clickIds.wbraid,
         ttclid: clickIds.ttclid,
         ct: city,
-        st: state,
-        zp: postalCode
-      });
+        st: state
+      }];
     })();
   `;
 }
