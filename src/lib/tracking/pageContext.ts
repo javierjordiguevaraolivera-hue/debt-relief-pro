@@ -1,12 +1,14 @@
 export type VercelGeoContext = {
   city?: string;
   country?: string;
+  zipCode?: string;
   state?: string;
 };
 
 const geoHeaders = {
   city: "x-vercel-ip-city",
   country: "x-vercel-ip-country",
+  zipCode: "x-vercel-ip-postal-code",
   state: "x-vercel-ip-country-region",
 } as const;
 
@@ -14,6 +16,7 @@ export function getVercelGeoContext(headersList: Headers): VercelGeoContext {
   return {
     city: normalizeGeoValue(headersList.get(geoHeaders.city)),
     country: normalizeGeoValue(headersList.get(geoHeaders.country)),
+    zipCode: normalizeGeoValue(headersList.get(geoHeaders.zipCode)),
     state: normalizeGeoValue(headersList.get(geoHeaders.state)),
   };
 }
@@ -100,6 +103,7 @@ export function buildGtmPageContextScript(geoContext: VercelGeoContext): string 
       var city = geoContext.city || undefined;
       var state = geoContext.state || undefined;
       var country = geoContext.country || undefined;
+      var zipCode = geoContext.zipCode || undefined;
 
       window.dataLayer = [{
         event_id: generateUuid(),
@@ -108,6 +112,7 @@ export function buildGtmPageContextScript(geoContext: VercelGeoContext): string 
         city: city,
         state: state,
         country: country,
+        zip_code: zipCode,
         page_path: window.location.pathname,
         page_url: window.location.href,
         fbp: readCookie("_fbp"),
