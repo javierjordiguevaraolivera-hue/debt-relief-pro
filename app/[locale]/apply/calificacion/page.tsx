@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { AffiliateClaimLink } from "./AffiliateClaimLink";
 import { CelebrationConfetti } from "./CelebrationConfetti";
+import { QualificationTracking } from "./QualificationTracking";
 import { SiteFooter, SiteHeader } from "../../components/SiteChrome";
 import { getAffiliateUrl } from "@/lib/affiliate";
 import { isLocale, type Locale } from "@/lib/i18n/locales";
@@ -60,9 +62,11 @@ export default async function QualificationPage({ params, searchParams }: Qualif
     ? resolvedSearchParams.id[0]
     : resolvedSearchParams.id;
   const qualificationId = normalizeQualificationId(id);
+  const affiliateUrl = getAffiliateUrl(locale, resolvedSearchParams);
 
   return (
     <div className="flex min-h-dvh flex-col bg-[#f4f8fb] text-slate-950">
+      <QualificationTracking locale={locale} qualificationId={qualificationId} />
       <CelebrationConfetti />
       <SiteHeader locale={locale} />
       <main className="mx-auto flex w-full max-w-3xl flex-1 items-center px-5 py-7">
@@ -89,12 +93,14 @@ export default async function QualificationPage({ params, searchParams }: Qualif
               {qualificationId}
             </p>
           </div>
-          <a
-            href={getAffiliateUrl(locale, resolvedSearchParams)}
+          <AffiliateClaimLink
+            href={affiliateUrl}
+            locale={locale}
+            qualificationId={qualificationId}
             className="mt-6 inline-flex rounded-md bg-emerald-600 px-8 py-4 text-base font-bold uppercase text-white hover:bg-emerald-700"
           >
             {copy.cta}
-          </a>
+          </AffiliateClaimLink>
           <p className="mt-4 text-sm leading-6 text-slate-600">{copy.expiration}</p>
         </section>
       </main>
