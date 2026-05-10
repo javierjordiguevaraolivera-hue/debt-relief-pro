@@ -1,3 +1,4 @@
+import { GoogleTagManager } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import "./globals.css";
 
@@ -27,7 +28,10 @@ export default function RootLayout({
       lang="en"
       className="h-full antialiased"
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <GoogleTagManager gtmId="GTM-PF7DTLD6" />
+      <body className="min-h-full flex flex-col">
+        {children}
+      </body>
     </html>
   );
 }
