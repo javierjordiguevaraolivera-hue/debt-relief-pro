@@ -7,6 +7,7 @@ import type { Locale } from "@/lib/i18n/locales";
 import { forgetApplyStatus, rememberApplyStatus } from "@/lib/applyStatus";
 import { getTranslations } from "@/lib/i18n/translations";
 import { usStateOptions } from "@/lib/usStates";
+import { sendApplicationQualifiedEvent } from "@/src/lib/tracking/events";
 
 type DebtOption = {
   label: string;
@@ -78,6 +79,7 @@ export function ApplyForm({
       }
 
       const qualificationId = generateQualificationId();
+      sendApplicationQualifiedEvent({ amount, locale, state });
       rememberApplyStatus({ id: qualificationId, locale, status: "qualified" });
       router.push(buildApplyPath(locale, "calificacion", searchParams, { id: qualificationId }));
       return;
@@ -96,6 +98,7 @@ export function ApplyForm({
     }
 
     const qualificationId = generateQualificationId();
+    sendApplicationQualifiedEvent({ amount, locale, state });
     rememberApplyStatus({ id: qualificationId, locale, status: "qualified" });
     router.push(buildApplyPath(locale, "calificacion", searchParams, { id: qualificationId }));
   }
