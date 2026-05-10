@@ -21,7 +21,7 @@ export function getVercelGeoContext(headersList: Headers): VercelGeoContext {
   };
 }
 
-export function buildGtmInitScript(geoContext: VercelGeoContext): string {
+export function buildGtmPageContextScript(geoContext: VercelGeoContext): string {
   const serializedGeo = JSON.stringify(geoContext).replace(/</g, "\\u003c");
 
   return `
@@ -108,7 +108,6 @@ export function buildGtmInitScript(geoContext: VercelGeoContext): string {
       var postalCode = geoContext.postalCode || undefined;
 
       window.dataLayer.push({
-        event: "gtm.init",
         event_id: generateUuid(),
         external_id: getExternalId(),
         language: getLanguage(window.location.pathname),
