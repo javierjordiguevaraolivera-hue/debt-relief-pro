@@ -56,7 +56,7 @@ export default async function ApplyPage({ params, searchParams }: PageProps) {
     : resolvedSearchParams.restart;
   const resetStoredStatus = restart === "1";
 
-  if (!resetStoredStatus) {
+  if (locale === "es" && !resetStoredStatus) {
     const cookieStore = await cookies();
     const storedStatus = parseApplyStatusCookie(cookieStore.get(APPLY_STATUS_COOKIE)?.value);
 
@@ -71,28 +71,26 @@ export default async function ApplyPage({ params, searchParams }: PageProps) {
 
   return (
     <div className="flex min-h-dvh flex-col bg-[#f4f8fb] text-slate-950">
-      <SiteHeader locale={locale} />
+      <SiteHeader hideActions={locale === "en"} locale={locale} />
       <main className="mx-auto grid w-full max-w-2xl flex-1 gap-8 px-4 py-8 md:px-5 md:py-14">
         <div>
-          <div className="mb-2 flex justify-center">
-            <Link
-              href={buildApplyPath(locale === "es" ? "en" : "es", resolvedSearchParams)}
-              className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-[#02163a] shadow-sm hover:border-emerald-600"
-            >
-              <Image
-                src={
-                  locale === "es"
-                    ? "/media/flag-for-united-states.png"
-                    : "/media/flag-for-mexico.png"
-                }
-                alt=""
-                width={24}
-                height={24}
-                className="h-6 w-6 object-contain"
-              />
-              {locale === "es" ? "Apply in English" : "Aplicar en español"}
-            </Link>
-          </div>
+          {locale === "es" ? (
+            <div className="mb-2 flex justify-center">
+              <Link
+                href={buildApplyPath("en", resolvedSearchParams)}
+                className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-[#02163a] shadow-sm hover:border-emerald-600"
+              >
+                <Image
+                  src="/media/flag-for-united-states.png"
+                  alt=""
+                  width={24}
+                  height={24}
+                  className="h-6 w-6 object-contain"
+                />
+                Apply in English
+              </Link>
+            </div>
+          ) : null}
           <ApplyForm
             initialState={detectedState}
             locale={locale}

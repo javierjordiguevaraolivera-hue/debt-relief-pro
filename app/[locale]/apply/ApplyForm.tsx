@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 
+import { EnglishApplyFunnel } from "./EnglishApplyFunnel";
 import type { Locale } from "@/lib/i18n/locales";
 import { forgetApplyStatus, rememberApplyStatus } from "@/lib/applyStatus";
 import { getTranslations } from "@/lib/i18n/translations";
@@ -42,6 +43,26 @@ export function ApplyForm({
   locale: Locale;
   resetStoredStatus?: boolean;
 }) {
+  if (locale === "en") {
+    return <EnglishApplyFunnel initialState={initialState} />;
+  }
+
+  return (
+    <SpanishApplyForm
+      initialState={initialState}
+      resetStoredStatus={resetStoredStatus}
+    />
+  );
+}
+
+function SpanishApplyForm({
+  initialState,
+  resetStoredStatus = false,
+}: {
+  initialState?: string;
+  resetStoredStatus?: boolean;
+}) {
+  const locale = "es";
   const router = useRouter();
   const searchParams = useSearchParams();
   const t = getTranslations(locale);
@@ -64,32 +85,13 @@ export function ApplyForm({
       forgetApplyStatus();
     }
 
-    if (locale === "es") {
-      if (amount === "0") {
-        rememberApplyStatus({ locale, reason: "debt", status: "rejected" });
-        router.push(buildApplyPath(locale, "rechazo", searchParams, { reason: "debt" }));
-        return;
-      }
-
-      if (ineligibleStatesByLocale.es.has(state)) {
-        rememberApplyStatus({ locale, reason: "state", state, status: "rejected" });
-        router.push(buildApplyPath(locale, "rechazo", searchParams, { reason: "state", state }));
-        return;
-      }
-
-      const qualificationId = generateQualificationId();
-      rememberApplyStatus({ id: qualificationId, locale, status: "qualified" });
-      router.push(buildApplyPath(locale, "calificacion", searchParams, { id: qualificationId }));
-      return;
-    }
-
     if (amount === "0") {
       rememberApplyStatus({ locale, reason: "debt", status: "rejected" });
       router.push(buildApplyPath(locale, "rechazo", searchParams, { reason: "debt" }));
       return;
     }
 
-    if (ineligibleStatesByLocale.en.has(state)) {
+    if (ineligibleStatesByLocale.es.has(state)) {
       rememberApplyStatus({ locale, reason: "state", state, status: "rejected" });
       router.push(buildApplyPath(locale, "rechazo", searchParams, { reason: "state", state }));
       return;
@@ -139,7 +141,7 @@ export function ApplyForm({
             onChange={(event) => setState(event.target.value)}
             className="h-12 rounded-md border border-slate-300 bg-white px-3 text-slate-950 outline-none focus:border-emerald-600"
           >
-            <option value="">{locale === "es" ? "Selecciona tu estado" : "Select your state"}</option>
+            <option value="">Selecciona tu estado</option>
             {usStateOptions.map((option) => (
               <option key={option.abbreviation} value={option.abbreviation}>
                 {option.name}
@@ -152,7 +154,7 @@ export function ApplyForm({
         type="submit"
         className="rounded-md bg-emerald-600 px-5 py-4 text-base font-bold uppercase text-white hover:bg-emerald-700"
       >
-        {locale === "es" ? "Ver si Califico" : "Check My Eligibility"}
+        Ver si Califico
       </button>
     </form>
   );

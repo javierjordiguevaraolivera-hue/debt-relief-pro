@@ -5,7 +5,13 @@ import type { Locale } from "@/lib/i18n/locales";
 import { alternateLocale } from "@/lib/i18n/locales";
 import { getTranslations } from "@/lib/i18n/translations";
 
-export function SiteHeader({ locale }: { locale: Locale }) {
+export function SiteHeader({
+  hideActions = false,
+  locale,
+}: {
+  hideActions?: boolean;
+  locale: Locale;
+}) {
   const t = getTranslations(locale);
   const brand = process.env.NEXT_PUBLIC_BRAND_NAME || "Debt Relief Pro";
   const otherLocale = alternateLocale(locale);
@@ -32,27 +38,29 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <Link href={`/${locale}/client-stories`}>{t.nav.testimonials}</Link>
           <Link href={`/${locale}/blog`}>{t.nav.blog}</Link>
         </nav>
-        <div className="flex min-w-0 items-center gap-2">
-          <Link
-            href={`/${otherLocale}`}
-            aria-label={`Switch to ${languageLabel}`}
-            className="rounded-md p-2 hover:bg-slate-100"
-          >
-            <Image
-              src={languageFlag}
-              alt=""
-              width={24}
-              height={24}
-              className="h-6 w-6 object-contain"
-            />
-          </Link>
-          <Link
-            href={`/${locale}/apply`}
-            className="rounded-md bg-emerald-600 px-3 py-2 text-center text-xs font-bold uppercase text-white shadow-sm hover:bg-emerald-700 sm:px-4 sm:text-sm"
-          >
-            {t.nav.apply}
-          </Link>
-        </div>
+        {hideActions ? null : (
+          <div className="flex min-w-0 items-center gap-2">
+            <Link
+              href={`/${otherLocale}`}
+              aria-label={`Switch to ${languageLabel}`}
+              className="rounded-md p-2 hover:bg-slate-100"
+            >
+              <Image
+                src={languageFlag}
+                alt=""
+                width={24}
+                height={24}
+                className="h-6 w-6 object-contain"
+              />
+            </Link>
+            <Link
+              href={`/${locale}/apply`}
+              className="rounded-md bg-emerald-600 px-3 py-2 text-center text-xs font-bold uppercase text-white shadow-sm hover:bg-emerald-700 sm:px-4 sm:text-sm"
+            >
+              {t.nav.apply}
+            </Link>
+          </div>
+        )}
       </div>
       <nav className="scrollbar-hidden mx-auto flex max-w-7xl gap-4 overflow-x-auto whitespace-nowrap border-t border-slate-100 px-4 py-2 text-xs font-bold uppercase text-slate-700 lg:hidden">
         <a className="shrink-0" href={`/${locale}#benefits`}>
