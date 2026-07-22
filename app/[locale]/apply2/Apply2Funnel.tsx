@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 
 import { forgetApplyStatus } from "@/lib/applyStatus";
@@ -441,7 +442,15 @@ function ContactStep({
             />
             <span className="text-xs leading-5 text-slate-600">
               By clicking &ldquo;Submit&rdquo; or providing my information above, I give my prior
-              express written consent for Ecomfy Lead LLC. and its partners, including National
+              express written consent for Ecomfy Lead LLC. and its{" "}
+              <Link
+                href="/en/partners"
+                target="_blank"
+                className="font-bold text-emerald-700 underline underline-offset-2"
+              >
+                partners
+              </Link>
+              , including National
               Debt Relief, LLC, to contact me at the phone number I provided regarding debt relief
               programs and related services. This includes calls and text messages using an
               automatic telephone dialing system, artificial or prerecorded voice, or AI-generated
