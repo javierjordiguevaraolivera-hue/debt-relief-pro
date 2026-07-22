@@ -48,7 +48,7 @@ const initialApplication: EnglishApplication = {
 
 const totalSteps = 5;
 
-export function EnglishApplyFunnel({ initialState }: { initialState?: string }) {
+export function Apply2Funnel({ initialState }: { initialState?: string }) {
   const [application, setApplication] = useState<EnglishApplication>(() => ({
     ...initialApplication,
     state: normalizeState(initialState),
@@ -122,27 +122,64 @@ export function EnglishApplyFunnel({ initialState }: { initialState?: string }) 
 
   return (
     <section className="mx-auto w-full max-w-xl">
-      <div className="mb-7">
-        <div className="mb-3 flex items-center justify-between text-xs font-bold uppercase tracking-[0.12em] text-slate-500">
-          <span>Step {step} of {totalSteps}</span>
-          <span>{Math.round((step / totalSteps) * 100)}% complete</span>
-        </div>
+      <style>{`
+        @keyframes apply2-question-in {
+          from {
+            opacity: 0;
+            transform: translateX(5px);
+          }
+
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+      `}</style>
+
+      <div className="mb-7 flex w-full items-center justify-between gap-3 md:gap-4">
+        <button
+          type="button"
+          aria-label="Go back"
+          onClick={() => setStep((current) => current - 1)}
+          className={`inline-flex h-9 w-9 shrink-0 items-center justify-center text-slate-500 transition hover:text-[#02163a] ${
+            step > 1 ? "" : "invisible"
+          }`}
+        >
+          <BackArrowIcon />
+        </button>
         <div
           aria-label={`Step ${step} of ${totalSteps}`}
           aria-valuemax={totalSteps}
           aria-valuemin={1}
           aria-valuenow={step}
-          className="h-2 overflow-hidden rounded-full bg-slate-200"
+          className="relative w-full max-w-[300px] overflow-hidden rounded-full bg-[#d9d9d9]"
           role="progressbar"
         >
           <div
-            className="h-full rounded-full bg-emerald-600 transition-[width] duration-300"
+            className="h-[8px] rounded-full bg-emerald-600 transition-[width] duration-300"
             style={{ width: `${(step / totalSteps) * 100}%` }}
           />
+          {Array.from({ length: totalSteps - 1 }).map((_, index) => (
+            <span
+              key={index}
+              aria-hidden="true"
+              className="absolute top-0 h-full w-px bg-white/55"
+              style={{ left: `${((index + 1) / totalSteps) * 100}%` }}
+            />
+          ))}
+        </div>
+        <div className="flex w-[58px] shrink-0 justify-end md:w-[70px]">
+          <span className="whitespace-nowrap text-[12px] font-black tracking-[-0.02em] text-[#02163a] md:text-[13px]">
+            {step} of {totalSteps}
+          </span>
         </div>
       </div>
 
-      <form className="grid gap-7 py-2 sm:py-4" onSubmit={handleSubmit}>
+      <form
+        key={`step-${step}`}
+        className="grid animate-[apply2-question-in_0.42s_cubic-bezier(0.22,0.61,0.36,1)] gap-7 py-2 sm:py-4"
+        onSubmit={handleSubmit}
+      >
         {step === 1 ? (
           <DebtStep
             value={application.totalDebtAmount}
@@ -195,22 +232,13 @@ export function EnglishApplyFunnel({ initialState }: { initialState?: string }) 
         ) : null}
 
         {step > 1 ? (
-          <div className="flex items-stretch gap-3 pt-1">
-            <button
-              type="button"
-              aria-label="Go back"
-              onClick={() => setStep((current) => current - 1)}
-              className="flex w-14 shrink-0 items-center justify-center rounded-md border border-slate-300 bg-white text-[#02163a] hover:border-slate-400 hover:bg-slate-50"
-            >
-              <BackIcon />
-            </button>
-            <button
-              type="submit"
-              className="flex-1 rounded-md bg-emerald-600 px-5 py-4 text-sm font-bold uppercase text-white shadow-sm hover:bg-emerald-700"
-            >
-              {step === totalSteps ? "Submit My Application" : "Continue"}
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="inline-flex h-[54px] items-center justify-center gap-2 rounded-full bg-emerald-600 px-6 text-[18px] font-semibold text-white shadow-sm transition hover:bg-emerald-700"
+          >
+            <span>{step === totalSteps ? "Submit My Application" : "Continue"}</span>
+            <NextArrowIcon />
+          </button>
         ) : null}
       </form>
 
@@ -226,10 +254,21 @@ export function EnglishApplyFunnel({ initialState }: { initialState?: string }) 
 function StepHeading({ description, title }: { description: string; title: string }) {
   return (
     <div className="text-center">
-      <h1 className="text-3xl font-bold leading-tight text-[#02163a]">{title}</h1>
+      <h1 className="mx-auto max-w-[720px] text-[30px] font-bold leading-[1.16] tracking-[-0.04em] text-[#02163a] md:text-[40px]">
+        {title}
+      </h1>
       <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-slate-600">{description}</p>
     </div>
   );
+}
+
+function optionButtonClass(isSelected: boolean) {
+  return [
+    "flex min-h-[62px] w-full items-center justify-center gap-3 rounded-[16px] border bg-white px-5 py-3 text-[17px] font-bold tracking-[-0.02em] text-[#02163a] shadow-[0_4px_10px_rgba(16,24,32,0.08)] transition",
+    isSelected
+      ? "border-blue-500 bg-blue-50 shadow-[0_0_0_1px_#3b82f6,0_8px_18px_rgba(59,130,246,0.12)]"
+      : "border-[#9c9c9c] hover:border-[#6f6f6f]",
+  ].join(" ");
 }
 
 function DebtStep({
@@ -245,18 +284,14 @@ function DebtStep({
         title="How much debt do you have?"
         description="Select the approximate total of your unsecured debt."
       />
-      <div className="grid gap-3">
+      <div className="mx-auto grid w-full max-w-[460px] gap-4">
         {debtOptions.map((option) => (
           <button
             key={option.value}
             type="button"
             aria-pressed={value === option.value}
             onClick={() => onChange(option.value)}
-            className={`flex min-h-16 items-center justify-center gap-3 rounded-2xl border px-5 py-4 text-base font-bold text-[#02163a] transition ${
-              value === option.value
-                ? "border-blue-500 bg-blue-50 ring-1 ring-blue-500"
-                : "border-slate-300 bg-white hover:border-blue-300"
-            }`}
+            className={optionButtonClass(value === option.value)}
           >
             <ChoiceIcon />
             <span>{option.label}</span>
@@ -282,11 +317,12 @@ function NameStep({
         title="Tell us about yourself"
         description="Enter your legal name as it appears on your identification."
       />
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="mx-auto grid w-full max-w-[460px] gap-4 sm:grid-cols-2">
         <TextField
           autoComplete="given-name"
           label="First name"
           name="firstName"
+          placeholder="First name"
           value={firstName}
           onChange={(value) => onChange("firstName", value)}
         />
@@ -294,6 +330,7 @@ function NameStep({
           autoComplete="family-name"
           label="Last name"
           name="lastName"
+          placeholder="Last name"
           value={lastName}
           onChange={(value) => onChange("lastName", value)}
         />
@@ -317,7 +354,7 @@ function AddressStep({
         title="Where do you live?"
         description="We use your address and date of birth to complete your application."
       />
-      <div className="grid gap-4">
+      <div className="mx-auto grid w-full max-w-[460px] gap-4">
         <TextField
           autoComplete="street-address"
           label="Address"
@@ -370,7 +407,7 @@ function ContactStep({
         title="How can we reach you?"
         description="Provide the best phone number and email for your application."
       />
-      <div className="grid gap-4">
+      <div className="mx-auto grid w-full max-w-[460px] gap-4">
         <TextField
           autoComplete="tel"
           inputMode="tel"
@@ -525,7 +562,7 @@ function PrequalifyingDialog() {
 }
 
 const fieldClassName =
-  "h-12 w-full rounded-md border border-slate-300 bg-white px-3 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-emerald-600 focus:ring-2 focus:ring-emerald-100";
+  "h-[58px] w-full rounded-[16px] border border-[#9c9c9c] bg-white px-5 text-[17px] text-[#101820] outline-none transition placeholder:text-slate-400 focus:border-emerald-600";
 
 function digitsOnly(value: string, maxLength: number): string {
   return value.replace(/\D/g, "").slice(0, maxLength);
@@ -639,21 +676,48 @@ function LockIcon() {
   );
 }
 
-function BackIcon() {
+function BackArrowIcon() {
   return (
     <svg
       aria-hidden="true"
-      className="h-6 w-6"
-      fill="none"
       viewBox="0 0 24 24"
+      fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      className="h-[18px] w-[18px]"
     >
       <path
-        d="m15 6-6 6 6 6"
+        d="M15.632 22.577l-9.225-9.562a1.439 1.439 0 01-.301-.466 1.48 1.48 0 01.301-1.566l9.225-9.562c.26-.27.613-.421.98-.421.368 0 .72.151.98.42.26.27.407.636.407 1.017 0 .38-.146.746-.406 1.016L9.346 12l8.248 8.547c.26.27.406.635.406 1.016s-.146.747-.406 1.016c-.26.27-.613.421-.98.421-.368 0-.72-.151-.98-.42l-.002-.003z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+function NextArrowIcon() {
+  return (
+    <svg
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 256 256"
+      fill="none"
+      className="h-[18px] w-[18px]"
+    >
+      <line
+        x1="40"
+        y1="128"
+        x2="216"
+        y2="128"
         stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth="2.25"
+        strokeWidth="24"
+      />
+      <polyline
+        points="144 56 216 128 144 200"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="24"
       />
     </svg>
   );
