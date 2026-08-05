@@ -118,7 +118,13 @@ export function Apply2Funnel({ initialState }: { initialState?: string }) {
   }
 
   if (submitted) {
-    return <ThankYou firstName={application.firstName} />;
+    return (
+      <ThankYou
+        email={application.email}
+        firstName={application.firstName}
+        phone={application.phone}
+      />
+    );
   }
 
   return (
@@ -282,8 +288,8 @@ function DebtStep({
   return (
     <fieldset className="grid gap-5">
       <StepHeading
-        title="How much debt do you have?"
-        description="Select the approximate total of your unsecured debt."
+        title="How much unsecured debt do you have?"
+        description="Select the approximate total of your debt."
       />
       <div className="mx-auto grid w-full max-w-[460px] gap-4">
         {debtOptions.map((option) => (
@@ -441,7 +447,7 @@ function ContactStep({
               className="mt-1 h-3 w-3 shrink-0 rounded border-slate-300 accent-emerald-600"
             />
             <span className="text-xs leading-5 text-slate-600">
-              By clicking &ldquo;Submit&rdquo; or providing my information above, I give my prior
+              By clicking &ldquo;Continue&rdquo; or providing my information above, I give my prior
               express written consent for Ecomfy Lead LLC. and its{" "}
               <Link
                 href="/en/partners"
@@ -490,6 +496,21 @@ function SsnStep({ onChange, value }: { onChange: (value: string) => void; value
           value={value}
           onChange={(nextValue) => onChange(formatSsn(nextValue))}
         />
+        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+          <p className="text-xs font-bold uppercase tracking-[0.08em] text-slate-700">
+            Credit report authorization (FCRA)
+          </p>
+          <p className="mt-2 text-xs leading-5 text-slate-600">
+            You understand that by clicking on the &lsquo;Submit my Application&rsquo; button you
+            are providing &lsquo;written instructions&rsquo; to Debt Relief Pro (DRP) under the Fair
+            Credit Reporting Act authorizing DRP and its marketing partners to obtain information
+            from your personal credit profile or other information from Experian. You authorize DRP
+            and its marketing partners to obtain such information solely to verify your identity and
+            display back credit information that we will use to determine whether your debts may be
+            appropriate for our program. This is a secure soft credit pull and will NOT impact your
+            credit score.
+          </p>
+        </div>
         <p className="flex items-start gap-2 text-xs leading-5 text-slate-500">
           <LockIcon />
           This frontend preview does not store or transmit your information yet.
@@ -520,7 +541,15 @@ function TextField({
   );
 }
 
-function ThankYou({ firstName }: { firstName: string }) {
+function ThankYou({
+  email,
+  firstName,
+  phone,
+}: {
+  email: string;
+  firstName: string;
+  phone: string;
+}) {
   return (
     <section className="rounded-2xl border border-slate-200 bg-white px-6 py-12 text-center shadow-sm sm:px-10">
       <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-100 text-emerald-700">
@@ -533,8 +562,15 @@ function ThankYou({ firstName }: { firstName: string }) {
         Thank you{firstName ? `, ${firstName}` : ""}
       </h1>
       <p className="mx-auto mt-4 max-w-md text-base leading-7 text-slate-600">
-        Your application details are ready. Secure submission to our review team will be connected
-        in the next implementation step.
+        Your application has been sent. One of our partners will contact you at the phone number{" "}
+        <span className="font-bold text-[#02163a]" data-field="phone">
+          {phone}
+        </span>{" "}
+        and also follow up to your email{" "}
+        <span className="font-bold text-[#02163a]" data-field="email">
+          {email}
+        </span>{" "}
+        to review the best options.
       </p>
     </section>
   );

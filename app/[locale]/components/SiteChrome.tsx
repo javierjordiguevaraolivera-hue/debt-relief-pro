@@ -7,9 +7,11 @@ import { getTranslations } from "@/lib/i18n/translations";
 
 export function SiteHeader({
   hideActions = false,
+  hideNav = false,
   locale,
 }: {
   hideActions?: boolean;
+  hideNav?: boolean;
   locale: Locale;
 }) {
   const t = getTranslations(locale);
@@ -32,12 +34,14 @@ export function SiteHeader({
             className="h-9 w-auto md:h-10"
           />
         </Link>
-        <nav className="hidden items-center gap-6 text-sm font-semibold uppercase text-slate-700 lg:flex">
-          <a href={`/${locale}#benefits`}>{t.nav.benefits}</a>
-          <a href={`/${locale}#process`}>{t.nav.process}</a>
-          <Link href={`/${locale}/client-stories`}>{t.nav.testimonials}</Link>
-          <Link href={`/${locale}/blog`}>{t.nav.blog}</Link>
-        </nav>
+        {hideNav ? null : (
+          <nav className="hidden items-center gap-6 text-sm font-semibold uppercase text-slate-700 lg:flex">
+            <a href={`/${locale}#benefits`}>{t.nav.benefits}</a>
+            <a href={`/${locale}#process`}>{t.nav.process}</a>
+            <Link href={`/${locale}/client-stories`}>{t.nav.testimonials}</Link>
+            <Link href={`/${locale}/blog`}>{t.nav.blog}</Link>
+          </nav>
+        )}
         {hideActions ? null : (
           <div className="flex min-w-0 items-center gap-2">
             <Link
@@ -62,20 +66,22 @@ export function SiteHeader({
           </div>
         )}
       </div>
-      <nav className="scrollbar-hidden mx-auto flex max-w-7xl gap-4 overflow-x-auto whitespace-nowrap border-t border-slate-100 px-4 py-2 text-xs font-bold uppercase text-slate-700 lg:hidden">
-        <a className="shrink-0" href={`/${locale}#benefits`}>
-          {t.nav.benefits}
-        </a>
-        <a className="shrink-0" href={`/${locale}#process`}>
-          {t.nav.process}
-        </a>
-        <Link className="shrink-0" href={`/${locale}/client-stories`}>
-          {t.nav.testimonials}
-        </Link>
-        <Link className="shrink-0" href={`/${locale}/blog`}>
-          {t.nav.blog}
-        </Link>
-      </nav>
+      {hideNav ? null : (
+        <nav className="scrollbar-hidden mx-auto flex max-w-7xl gap-4 overflow-x-auto whitespace-nowrap border-t border-slate-100 px-4 py-2 text-xs font-bold uppercase text-slate-700 lg:hidden">
+          <a className="shrink-0" href={`/${locale}#benefits`}>
+            {t.nav.benefits}
+          </a>
+          <a className="shrink-0" href={`/${locale}#process`}>
+            {t.nav.process}
+          </a>
+          <Link className="shrink-0" href={`/${locale}/client-stories`}>
+            {t.nav.testimonials}
+          </Link>
+          <Link className="shrink-0" href={`/${locale}/blog`}>
+            {t.nav.blog}
+          </Link>
+        </nav>
+      )}
     </header>
   );
 }

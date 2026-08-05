@@ -51,6 +51,12 @@ export default async function ApplyPage({ params, searchParams }: PageProps) {
 
   const locale: Locale = rawLocale;
   const resolvedSearchParams = (await searchParams) || {};
+
+  // The English funnel now lives at /en/apply2; keep old links and ads working.
+  if (locale === "en") {
+    redirect(buildApplyPath("en", resolvedSearchParams, "apply2"));
+  }
+
   const restart = Array.isArray(resolvedSearchParams.restart)
     ? resolvedSearchParams.restart[0]
     : resolvedSearchParams.restart;
@@ -71,13 +77,13 @@ export default async function ApplyPage({ params, searchParams }: PageProps) {
 
   return (
     <div className="flex min-h-dvh flex-col bg-[#f4f8fb] text-slate-950">
-      <SiteHeader hideActions={locale === "en"} locale={locale} />
+      <SiteHeader locale={locale} />
       <main className="mx-auto grid w-full max-w-2xl flex-1 gap-8 px-4 py-8 md:px-5 md:py-14">
         <div>
           {locale === "es" ? (
             <div className="mb-2 flex justify-center">
               <Link
-                href={buildApplyPath("en", resolvedSearchParams)}
+                href={buildApplyPath("en", resolvedSearchParams, "apply2")}
                 className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-sm font-bold text-[#02163a] shadow-sm hover:border-emerald-600"
               >
                 <Image
@@ -120,6 +126,7 @@ function getDetectedState(country: string | undefined, region: string | null): s
 function buildApplyPath(
   locale: Locale,
   params: Record<string, string | string[] | undefined>,
+  segment: "apply" | "apply2" = "apply",
 ): string {
   const searchParams = new URLSearchParams();
 
@@ -138,5 +145,5 @@ function buildApplyPath(
 
   const queryString = searchParams.toString();
 
-  return queryString ? `/${locale}/apply?${queryString}` : `/${locale}/apply`;
+  return queryString ? `/${locale}/${segment}?${queryString}` : `/${locale}/${segment}`;
 }

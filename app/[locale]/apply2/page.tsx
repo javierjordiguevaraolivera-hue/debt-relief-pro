@@ -48,7 +48,7 @@ export default async function Apply2Page({ params }: PageProps) {
 
   return (
     <div className="flex min-h-dvh flex-col bg-[#f4f8fb] text-slate-950">
-      <SiteHeader hideActions={locale === "en"} locale={locale} />
+      <SiteHeader hideActions={locale === "en"} hideNav locale={locale} />
       <main className="mx-auto grid w-full max-w-2xl flex-1 gap-8 px-4 py-8 md:px-5 md:py-14">
         <Apply2Funnel initialState={detectedState} />
       </main>
